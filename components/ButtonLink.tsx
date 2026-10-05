@@ -32,10 +32,22 @@ export function ButtonLink({
 }
 
 /** "Plan your event →" style link, copper on light backgrounds. */
-export function ArrowLink({ href, className = "", children }: { href: string; className?: string; children: ReactNode }) {
+export function ArrowLink({
+  href,
+  external = false,
+  className = "",
+  children,
+}: {
+  href: string;
+  /** Opens in a new tab (Instagram). */
+  external?: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
   return (
     <a
       href={href}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
       className={`inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-copper underline underline-offset-4 hover:text-navy ${className}`}
     >
       {children}
