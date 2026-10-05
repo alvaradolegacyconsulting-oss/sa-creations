@@ -1,8 +1,8 @@
 import { site } from "@/content/site";
 
 /**
- * Two-tone text wordmark until the logo file arrives: "S&A" in copper (gold on dark backgrounds,
- * where copper fails contrast) over "Creations" in small caps.
+ * Two-tone text wordmark until the logo file arrives: the top line in copper (gold on dark backgrounds,
+ * where copper fails contrast) over the bottom line in small caps.
  */
 export function Logo({ dark = false }: { dark?: boolean }) {
   return (

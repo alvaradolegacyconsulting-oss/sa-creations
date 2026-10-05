@@ -5,6 +5,7 @@ import { gallery } from "./gallery";
 import { hero } from "./hero";
 import { headerNav, navLabels } from "./navigation";
 import { openQuestions } from "./pending";
+import { redirects } from "./redirects";
 import { services, servicesSection } from "./services";
 import { site } from "./site";
 import { story } from "./story";
@@ -21,5 +22,6 @@ export const content = {
   contact,
   headerNav,
   navLabels,
+  redirects,
   openQuestions,
 };

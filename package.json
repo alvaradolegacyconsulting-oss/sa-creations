@@ -7,11 +7,13 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/check-production-gates.ts",
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "gates": "tsx scripts/check-production-gates.ts --all"
   },
   "dependencies": {
     "next": "16.3.6",

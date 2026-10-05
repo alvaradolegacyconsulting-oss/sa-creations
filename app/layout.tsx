@@ -1,14 +1,27 @@
+import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { gallery } from "@/content/gallery";
 import { headerNav, navLabels } from "@/content/navigation";
+import { site } from "@/content/site";
 import { hiddenHomeSections } from "@/lib/gallery";
 import { t } from "@/lib/i18n";
+import { siteOrigin } from "@/lib/seo";
 import { visibleLinks } from "@/lib/sections";
 import { bodyFont, displayFont } from "@/theme/fonts";
 import { themeCssVariables } from "@/theme/tokens";
 import "./globals.css";
+
+// Each page exports pageMetadata() from lib/seo.ts; this sets the base URL and title template.
+export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin(site)),
+  title: {
+    default: `${site.businessName} | ${site.tagline.en}`,
+    template: `%s | ${site.businessName}`,
+  },
+  description: site.description.en,
+};
 
 const themeVariables = themeCssVariables as CSSProperties;
 
