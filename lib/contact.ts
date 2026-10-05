@@ -15,6 +15,20 @@ export function serviceFromParam(value: string | null): ServiceId | null {
   return contact.serviceOptions.find((option) => option.id === value)?.id ?? null;
 }
 
+/** Window event a service CTA fires on the home page; ContactForm checks that service in state. */
+export const SERVICE_PRESELECT_EVENT = "contact:preselect-service";
+
+export function requestServicePreselect(id: ServiceId): void {
+  window.dispatchEvent(new CustomEvent<ServiceId>(SERVICE_PRESELECT_EVENT, { detail: id }));
+}
+
+/** The URL with ?service= removed (hash kept), so it only preselects on the first load. */
+export function withoutServiceParam(href: string): string {
+  const url = new URL(href);
+  url.searchParams.delete(SERVICE_PARAM);
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 /** What the contact form POSTs to /api/contact as JSON. */
 export type ContactPayload = {
   name: string;

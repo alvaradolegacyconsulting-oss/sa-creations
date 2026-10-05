@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ContactForm } from "@/components/ContactForm";
+import { ContactSection } from "@/components/ContactSection";
+import { ServicesSection } from "@/components/ServicesSection";
 import { contact } from "@/content/contact";
 import { site } from "@/content/site";
 
@@ -96,10 +98,57 @@ describe("ContactForm (FORM_UI)", () => {
     expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(false);
   });
 
-  it("preselects the service named in ?service=", () => {
+  it("preselects the service named in ?service= on first load, then drops it from the URL", () => {
     window.history.replaceState(null, "", "/?service=apparel#contact");
     render(<ContactForm />);
     expect((screen.getByLabelText("Custom apparel") as HTMLInputElement).checked).toBe(true);
     expect((screen.getByLabelText("Event planning") as HTMLInputElement).checked).toBe(false);
+    expect(window.location.search).toBe("");
+    expect(window.location.hash).toBe("#contact");
+  });
+});
+
+describe("service CTAs on the home page", () => {
+  function renderHome() {
+    render(
+      <>
+        <ServicesSection />
+        <ContactSection />
+      </>,
+    );
+  }
+
+  it("check the service without a reload, keeping everything already typed", async () => {
+    const user = userEvent.setup();
+    renderHome();
+    await fillRequired(user);
+    await user.type(screen.getByLabelText(/Phone/), "281 555 0100");
+    await user.click(screen.getByLabelText("Event planning"));
+
+    const cta = screen.getByRole("link", { name: /Design your decor/ });
+    expect(cta.getAttribute("href")).toBe("/?service=decor#contact");
+    await user.click(cta);
+
+    expect((screen.getByLabelText("Custom decor") as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText("Event planning") as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe("Maria Lopez");
+    expect((screen.getByLabelText("Email") as HTMLInputElement).value).toBe("maria@example.com");
+    expect((screen.getByLabelText(/Phone/) as HTMLInputElement).value).toBe("281 555 0100");
+    expect((screen.getByLabelText("Tell us about it") as HTMLTextAreaElement).value).toContain("Quinceañera");
+    // Only the hash changed: no ?service= navigation, so no reload.
+    expect(window.location.search).toBe("");
+    expect(window.location.hash).toBe("#contact");
+  });
+
+  it("never unchecks a service that's already checked, and scrolls again when already at #contact", async () => {
+    // jsdom has no scrollIntoView.
+    const scrollIntoView = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoView;
+    const user = userEvent.setup();
+    renderHome();
+    await user.click(screen.getByRole("link", { name: /Create a gift/ }));
+    await user.click(screen.getByRole("link", { name: /Create a gift/ }));
+    expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(true);
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });

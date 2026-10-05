@@ -5,12 +5,22 @@ import { buttonClasses } from "@/components/ButtonLink";
 import { contact } from "@/content/contact";
 import type { ServiceId } from "@/content/services";
 import { site } from "@/content/site";
-import { SERVICE_PARAM, isConfirmedSent, payloadFromForm, serviceFromParam } from "@/lib/contact";
+import {
+  SERVICE_PARAM,
+  SERVICE_PRESELECT_EVENT,
+  isConfirmedSent,
+  payloadFromForm,
+  serviceFromParam,
+  withoutServiceParam,
+} from "@/lib/contact";
 import { t } from "@/lib/i18n";
 
 type FormStatus = "idle" | "invalid" | "pending" | "sent" | "failed";
 
 const STATUS_ID = "contact-status";
+
+/** State updater that checks a service, leaving it checked if it already is. */
+const withService = (id: ServiceId) => (current: ServiceId[]) => (current.includes(id) ? current : [...current, id]);
 
 const inputClasses =
   "min-h-12 w-full rounded-sm border border-ink/55 bg-white px-3 text-ink aria-[invalid=true]:border-2 aria-[invalid=true]:border-alert";
@@ -26,12 +36,24 @@ export function ContactForm() {
   const [invalid, setInvalid] = useState<string[]>([]);
   const [services, setServices] = useState<ServiceId[]>([]);
 
-  // A service card links here with ?service=<id>; check that box. Read in the browser, since
-  // the page is built statically.
+  // Links from outside the page arrive as /?service=<id>#contact: check that box once, then drop the
+  // parameter so a reload doesn't re-check it. Read in the browser, since the page is built statically.
   useEffect(() => {
     const preselected = serviceFromParam(new URLSearchParams(window.location.search).get(SERVICE_PARAM));
+    if (!preselected) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from the URL after mount
-    if (preselected) setServices((current) => (current.includes(preselected) ? current : [...current, preselected]));
+    setServices(withService(preselected));
+    window.history.replaceState(window.history.state, "", withoutServiceParam(window.location.href));
+  }, []);
+
+  // Service CTAs on this page fire an event instead of reloading, so anything typed is kept.
+  useEffect(() => {
+    const onPreselect = (event: Event) => {
+      const id = serviceFromParam((event as CustomEvent<unknown>).detail as string);
+      if (id) setServices(withService(id));
+    };
+    window.addEventListener(SERVICE_PRESELECT_EVENT, onPreselect);
+    return () => window.removeEventListener(SERVICE_PRESELECT_EVENT, onPreselect);
   }, []);
 
   function toggleService(id: ServiceId, checked: boolean) {

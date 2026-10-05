@@ -1,9 +1,8 @@
-import { ArrowLink } from "@/components/ButtonLink";
 import { PhotoFrame } from "@/components/PhotoFrame";
 import { Section } from "@/components/Section";
+import { ServiceCta } from "@/components/ServiceCta";
 import { sectionIds } from "@/content/navigation";
 import { services, servicesSection } from "@/content/services";
-import { contactHrefForService } from "@/lib/contact";
 import { t } from "@/lib/i18n";
 import { serviceAnchor } from "@/lib/sections";
 
@@ -28,9 +27,9 @@ export function ServicesSection() {
                   </li>
                 ))}
               </ul>
-              <ArrowLink href={contactHrefForService(service.id)} className="mt-3">
+              <ServiceCta service={service.id} className="mt-3">
                 {t(service.cta)}
-              </ArrowLink>
+              </ServiceCta>
             </div>
           </li>
         ))}

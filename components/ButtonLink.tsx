@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 
 export type ButtonVariant = "primary" | "outline";
 
@@ -36,17 +36,20 @@ export function ArrowLink({
   href,
   external = false,
   className = "",
+  onClick,
   children,
 }: {
   href: string;
   /** Opens in a new tab (Instagram). */
   external?: boolean;
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   children: ReactNode;
 }) {
   return (
     <a
       href={href}
+      onClick={onClick}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
       className={`inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-copper underline underline-offset-4 hover:text-navy ${className}`}
     >
