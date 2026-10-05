@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* Values come from theme/tokens.ts (set on <html> in app/layout.tsx); this only names them for Tailwind. */
+@theme inline {
+  --color-navy: var(--theme-navy);
+  --color-copper: var(--theme-copper);
+  --color-gold: var(--theme-gold);
+  --color-ivory: var(--theme-ivory);
+  --color-sand: var(--theme-sand);
+  --color-line: var(--theme-line);
+  --color-ink: var(--theme-ink);
+  --color-white: var(--theme-white);
+  --color-alert: var(--theme-alert);
+  --radius-sm: var(--theme-radius-sm);
+  --radius-md: var(--theme-radius-md);
+  --radius-lg: var(--theme-radius-lg);
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
+/* Keep in-page anchors clear of the sticky header. */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+/* On navy and ink, copper fails; the focus ring switches to gold. */
+.on-dark :focus-visible {
+  outline-color: var(--color-gold);
+}
