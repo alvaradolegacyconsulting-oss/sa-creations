@@ -30,6 +30,12 @@ export type Photo = {
   label: LocalizedText;
 };
 
+/**
+ * A deliberate "no photo here" (e.g. a service with no real photo yet): the card renders without a
+ * photo box, and the production gate accepts it. Unlike `src: null`, which still blocks production.
+ */
+export type NoPhoto = { kind: "none" };
+
 /** Marks a value Jose hasn't confirmed yet. The production build fails while any remain (lib/gates.ts). */
 export const PLACEHOLDER = "[PLACEHOLDER";
 

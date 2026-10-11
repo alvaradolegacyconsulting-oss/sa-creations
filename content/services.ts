@@ -1,4 +1,4 @@
-import type { LocalizedText, Photo, SectionIntro } from "./types";
+import type { LocalizedText, NoPhoto, Photo, SectionIntro } from "./types";
 
 /** Also the contact form's service checkbox values and the ?service= preselect. */
 export type ServiceId = "events" | "decor" | "apparel" | "gifts";
@@ -10,7 +10,8 @@ export type Service = {
   items: LocalizedText[];
   /** Link to the contact form with this service checked. An arrow is added after it. */
   cta: LocalizedText;
-  photo: Photo;
+  /** `{ kind: "none" }` renders the card without a photo, on purpose. */
+  photo: Photo | NoPhoto;
 };
 
 export const servicesSection: SectionIntro = {

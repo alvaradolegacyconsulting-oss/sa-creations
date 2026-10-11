@@ -15,6 +15,11 @@ describe("PLACEHOLDERS_RESOLVED", () => {
     expect(findMissingPhotos(photos, "hero.photos")).toEqual(["hero.photos[0].src is null (Real photo: cake)"]);
   });
 
+  it("accepts an intentional no-photo marker but not a missing photo", () => {
+    const services = [{ photo: { kind: "none" } }, { photo: { src: null, alt: { en: "x" }, label: { en: "Real photo" } } }];
+    expect(runGates({ services })[0].problems).toEqual(["services[1].photo.src is null (Real photo)"]);
+  });
+
   it("does not treat an empty gallery as a problem", () => {
     expect(runGates({ gallery: { photos: [] } })[0].problems).toEqual([]);
   });
