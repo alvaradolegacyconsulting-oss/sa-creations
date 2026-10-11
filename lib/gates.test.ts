@@ -32,6 +32,6 @@ describe("PLACEHOLDERS_RESOLVED", () => {
     const problems = runGates(content)[0].problems.join("\n");
     expect(problems).toContain("site.url");
     expect(problems).toContain("site.email");
-    expect(problems).toContain("hero.photos[0].src is null");
+    expect(problems).not.toContain("src is null");
   });
 });

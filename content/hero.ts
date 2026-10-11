@@ -26,19 +26,21 @@ export const hero: HeroContent = {
   secondaryCta: { en: "See our work" },
   photos: [
     {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the event photo]" },
+      src: "/images/church-altar-love-sign.jpg",
+      alt: {
+        en: "Church altar decorated for a wedding: white drapes and greenery framing a lit LOVE sign, white flower stands and a white aisle runner",
+      },
       label: { en: "Real photo: an event you decorated" },
     },
     {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the gift basket photo]" },
+      src: "/images/wedding-gift-basket-rose-wine.jpg",
+      alt: { en: "Wedding gift basket with a lace-wrapped bottle of rosé, two glasses filled with chocolates and ivory flower trim" },
       label: { en: "Real photo: gift basket" },
     },
     {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the custom shirt photo]" },
-      label: { en: "Real photo: custom shirt" },
+      src: "/images/burgundy-ivory-floral-arrangement.jpg",
+      alt: { en: "Floral arrangement of burgundy and ivory roses, a white orchid and eucalyptus over gold sequin fabric" },
+      label: { en: "Real photo: floral arrangement" },
     },
   ],
 };

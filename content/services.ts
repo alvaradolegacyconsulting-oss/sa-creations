@@ -35,8 +35,8 @@ export const services: Service[] = [
     ],
     cta: { en: "Plan your event" },
     photo: {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the event planning photo]" },
+      src: "/images/church-aisle-pew-garlands.jpg",
+      alt: { en: "Church aisle set for a wedding, with a white runner, scattered petals and flower garlands on every pew" },
       label: { en: "Real photo" },
     },
   },
@@ -53,8 +53,8 @@ export const services: Service[] = [
     ],
     cta: { en: "Design your decor" },
     photo: {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the custom decor photo]" },
+      src: "/images/baby-shower-balloon-arch.jpg",
+      alt: { en: "Balloon arch in yellow, blue, rust and cow print around an \"It's a Boy Story\" banner, with BABY letter blocks" },
       label: { en: "Real photo" },
     },
   },
@@ -70,11 +70,8 @@ export const services: Service[] = [
       { en: "Hats and bags" },
     ],
     cta: { en: "Order apparel" },
-    photo: {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the custom apparel photo]" },
-      label: { en: "Real photo" },
-    },
+    // No real apparel photo yet; the card renders without one on purpose.
+    photo: { kind: "none" },
   },
   {
     id: "gifts",
@@ -89,8 +86,8 @@ export const services: Service[] = [
     ],
     cta: { en: "Create a gift" },
     photo: {
-      src: null,
-      alt: { en: "[PLACEHOLDER: describe the custom gifts photo]" },
+      src: "/images/winnie-the-pooh-diaper-cake.jpg",
+      alt: { en: "Three-tier diaper cake topped with a Winnie-the-Pooh plush, trimmed with yellow flowers, burlap and baby bottles" },
       label: { en: "Real photo" },
     },
   },
