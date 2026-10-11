@@ -44,12 +44,13 @@ deliberate. `npm run gates` lists everything still open.
 
 ## Add photos to the gallery
 
-File: `content/gallery.ts`. Photos: `public/images/gallery/`.
+File: `content/gallery.ts`. Photos: `public/images/` (the hero and service cards can reuse the same files).
 
-**Real photos of S&A's own work only**, never stock or AI-generated images.
+**Real photos of S&A's own work only**, never stock or AI-generated images. No customer faces,
+names or house numbers unless the customer has said yes; crop them out or leave the photo out.
 
 1. Save each photo as a `.jpg` with a short lowercase name, for example
-   `public/images/gallery/garcia-quince-arch.jpg`. Portrait or square works best (tiles are 4:5);
+   `public/images/quince-gold-balloon-arch.jpg`. Portrait or square works best (tiles are 4:5);
    about 1200 px on the long side is plenty.
 2. Add one block per photo to the `photos` list, in the order they should appear:
 
@@ -57,14 +58,14 @@ File: `content/gallery.ts`. Photos: `public/images/gallery/`.
    photos: [
      {
        tag: "balloon-arch",
-       src: "/images/gallery/garcia-quince-arch.jpg",
+       src: "/images/quince-gold-balloon-arch.jpg",
        alt: { en: "Gold and white balloon arch over a quinceañera head table" },
      },
    ],
    ```
 
-   - `tag` is one of: `"wedding"`, `"quinceanera"`, `"balloon-arch"`, `"centerpieces"`,
-     `"event-shirts"`, `"business-merch"`, `"gift-basket"`, `"personalized-sign"`. It sets the caption
+   - `tag` is one of: `"wedding"`, `"quinceanera"`, `"baby-shower"`, `"proposal"`, `"balloon-arch"`,
+     `"centerpieces"`, `"event-shirts"`, `"business-merch"`, `"gift-basket"`, `"personalized-sign"`. It sets the caption
      on the photo.
    - `alt` describes what's in the photo for people who can't see it. One plain sentence.
 
@@ -102,6 +103,10 @@ photo: {
 
 To replace a photo later, overwrite the file with the same name, or point `src` at the new file and
 delete the old one.
+
+A service with no real photo yet can go without one on purpose: set `photo: { kind: "none" }` and the
+card shows text only. (The custom apparel card is like this until S&A has a real apparel photo.) Use
+this rather than leaving `src: null`, which blocks production.
 
 ## Set the inquiry email, phone or social links
 
