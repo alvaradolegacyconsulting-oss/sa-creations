@@ -6,6 +6,7 @@ import { hero } from "./hero";
 import { headerNav, navLabels, notFound } from "./navigation";
 import { openQuestions } from "./pending";
 import { redirects } from "./redirects";
+import { seasonal } from "./seasonal";
 import { services, servicesSection } from "./services";
 import { site } from "./site";
 import { story } from "./story";
@@ -17,6 +18,7 @@ export const content = {
   values,
   servicesSection,
   services,
+  seasonal,
   gallery,
   story,
   contact,

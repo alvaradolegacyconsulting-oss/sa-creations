@@ -11,7 +11,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-114 pieces of text; 113 still without Spanish (marked —).
+121 pieces of text; 120 still without Spanish (marked —).
 
 ## Site-wide (titles, header, footer)
 
@@ -123,6 +123,18 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `services[3].items[4]` | Personalized signs | — |
 | `services[3].cta` | Create a gift | — |
 | `services[3].photo.alt` (also `gallery.photos[5].alt`) | Three-tier diaper cake topped with a Winnie-the-Pooh plush, trimmed with yellow flowers, burlap and baby bottles | — |
+
+## This Season
+
+| Where | English | Español |
+|---|---|---|
+| `seasonal.intro.eyebrow` (also `seasonal.page.title`) | This season | — |
+| `seasonal.intro.heading.before` | [PLACEHOLDER: This Season band heading] | — |
+| `seasonal.page.description` | [PLACEHOLDER: /season page description] | — |
+| `seasonal.seeMore` | See this season | — |
+| `seasonal.evergreen.headline` | [PLACEHOLDER: evergreen headline] | — |
+| `seasonal.evergreen.body` | [PLACEHOLDER: evergreen body] | — |
+| `seasonal.evergreen.cta.label` | [PLACEHOLDER: evergreen call to action] | — |
 
 ## Gallery
 

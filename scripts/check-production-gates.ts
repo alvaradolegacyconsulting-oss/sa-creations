@@ -1,9 +1,20 @@
 import { content } from "../content";
+import { seasonal } from "../content/seasonal";
 import { site } from "../content/site";
 import { runGates } from "../lib/gates";
+import { findSeasonProblems } from "../lib/seasons";
 
-// Runs before every build (npm "prebuild") but only blocks production (VERCEL_ENV=production), so
-// previews build with placeholders. `npm run gates` runs it anywhere to see what's left.
+// Broken data fails every build, previews included: a season with an impossible date or an overlap
+// would show the wrong copy, and there's no question left for anyone to answer.
+const seasonProblems = findSeasonProblems(seasonal.seasons);
+if (seasonProblems.length > 0) {
+  console.error("SEASONS_VALID: FAIL. Fix content/seasonal.ts:");
+  for (const problem of seasonProblems) console.error(`- ${problem}`);
+  process.exitCode = 1;
+}
+
+// The gates run before every build (npm "prebuild") but only block production (VERCEL_ENV=production),
+// so previews build with placeholders. `npm run gates` runs them anywhere to see what's left.
 const force = process.argv.includes("--all");
 
 if (force || process.env.VERCEL_ENV === "production") {
