@@ -35,7 +35,7 @@ export type SiteContent = {
 };
 
 export const site: SiteContent = {
-  languages: ["en"],
+  languages: ["en", "es"],
   translationsReviewed: false,
   url: placeholder("production domain, e.g. https://sacreations.com"),
   businessName: "S&A Creations",
