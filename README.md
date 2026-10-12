@@ -5,9 +5,8 @@ decor, custom apparel and custom gifts. One page: hero, values, the four service
 our story and an inquiry form for a free consultation. Next.js (App Router), TypeScript, Tailwind CSS.
 No database, no CMS, no logins, no store.
 
-> **Status (build/v1):** every section is built. The inquiry form's email route (`/api/contact`) is
-> not built yet, so every submit currently shows the "We couldn't send your request" error (with the
-> inquiry email). There is no domain yet: the site lives on Vercel preview URLs, and production is
+> **Status (build/v1):** every section is built, and the inquiry form sends email through
+> `/api/contact` (Resend) once the three environment variables below are set. There is no domain yet: the site lives on Vercel preview URLs, and production is
 > blocked on purpose until the open questions are answered (see [Build-time gates](#build-time-gates-prebuild)).
 
 - **Production:** `main` branch → Vercel production (once a domain is chosen).
@@ -54,7 +53,8 @@ cp .env.example .env.local
 | `CONTACT_TO_EMAIL` | Inbox that receives inquiries. |
 | `CONTACT_FROM_EMAIL` | Sender. On previews, Resend's test sender `onboarding@resend.dev` (delivers only to the Resend account owner). In production, an address on the site's domain, verified in Resend. |
 
-None are read yet: they're for `/api/contact`, the next piece of work. `.env.local` is git-ignored;
+Only `/api/contact` reads them. Without them the form shows its "couldn't send" message (with the
+inquiry email) and nothing is lost; the route logs which variable is missing. `.env.local` is git-ignored;
 never commit real values. On Vercel, set all three under **Project Settings → Environment Variables**
 for **Preview** and **Production**, then redeploy.
 

@@ -1,6 +1,10 @@
 // Relative imports only in content/: scripts/check-production-gates.ts loads these files under tsx,
 // which doesn't resolve the "@/" alias.
 
+/** The languages the site can be written in. English is the default (served at "/"). */
+export const locales = ["en", "es"] as const;
+export type Locale = (typeof locales)[number];
+
 export type LocalizedText = {
   en: string;
   es?: string;

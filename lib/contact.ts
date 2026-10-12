@@ -1,6 +1,17 @@
 import { contact } from "@/content/contact";
+import type { Locale } from "@/content/types";
 import { sectionIds } from "@/content/navigation";
 import type { ServiceId } from "@/content/services";
+
+/** Field limits, shared by the form (maxLength) and the server schema so they can't drift (from alc-site). */
+export const contactLimits = {
+  name: 80,
+  email: 254,
+  phone: 30,
+  details: 5000,
+  /** Largest request body /api/contact reads. The longest valid submission is well under this. */
+  bodyBytes: 32 * 1024,
+} as const;
 
 /** Query parameter a service CTA sets to preselect that service's checkbox in the form. */
 export const SERVICE_PARAM = "service";
@@ -39,12 +50,26 @@ export type ContactPayload = {
   /** ids from content/contact.ts serviceOptions. */
   services: ServiceId[];
   details: string;
+  /** The language of the page the form was sent from, so S&A knows which language to reply in. */
+  locale: Locale;
+  /** The season id when the visitor came from a season's call to action. */
+  season?: string;
   /** Honeypot: hidden from people, so anything here means a bot. */
   website: string;
 };
 
-/** /api/contact's reply. `ok: true` is sent only after the email API reports success. */
-export type ContactResponse = { ok: true } | { ok: false; error: string };
+/** Fields a visitor can fix, in form order. A 400 reply names only these (never their values). */
+export const contactFields = ["name", "email", "phone", "date", "services", "details"] as const;
+export type ContactField = (typeof contactFields)[number];
+
+/**
+ * /api/contact's reply. `ok: true` is sent only after the email API reports success.
+ * "invalid" means nothing was sent because a field needs fixing; "send-failed" means the send itself failed.
+ */
+export type ContactResponse =
+  | { ok: true }
+  | { ok: false; reason: "invalid"; fields: ContactField[] }
+  | { ok: false; reason: "send-failed" };
 
 export function payloadFromForm(form: HTMLFormElement): ContactPayload {
   const data = new FormData(form);
@@ -60,6 +85,7 @@ export function payloadFromForm(form: HTMLFormElement): ContactPayload {
       .map((value) => serviceFromParam(String(value)))
       .filter((id): id is ServiceId => id !== null),
     details: text("details"),
+    locale: "en",
     website: text("website"),
   };
 }
