@@ -3,7 +3,8 @@ import type { LocalizedText, SectionIntro } from "./types";
 export type StoryContent = {
   intro: SectionIntro;
   body: LocalizedText;
-  verse: { text: LocalizedText; reference: string };
+  /** `reference` names the Bible version, so it differs by language too. */
+  verse: { text: LocalizedText; reference: LocalizedText };
 };
 
 export const story: StoryContent = {
@@ -16,6 +17,6 @@ export const story: StoryContent = {
   },
   verse: {
     text: { en: "Whatever you do, work at it with all your heart, as working for the Lord." },
-    reference: "Colossians 3:23 (NIV)",
+    reference: { en: "Colossians 3:23 (NIV)" },
   },
 };

@@ -24,7 +24,7 @@ export function StorySection({ locale }: { locale: Locale }) {
           <blockquote className="mt-6 font-display text-2xl italic leading-snug sm:text-[1.75rem]">
             <p>&ldquo;{t(story.verse.text, locale)}&rdquo;</p>
           </blockquote>
-          <figcaption className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-gold">{story.verse.reference}</figcaption>
+          <figcaption className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-gold">{t(story.verse.reference, locale)}</figcaption>
         </figure>
       </Container>
     </section>

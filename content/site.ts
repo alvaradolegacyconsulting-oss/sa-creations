@@ -6,6 +6,11 @@ export type SiteContent = {
    * Spanish site at "/es", shows the EN | ES switch and makes production require every Spanish string.
    */
   languages: Locale[];
+  /**
+   * Set to true only after S&A has signed off the Spanish (docs/REVIEW.md). While Spanish is built and
+   * this is false, production is blocked (TRANSLATIONS_REVIEWED), so unreviewed drafts never ship.
+   */
+  translationsReviewed: boolean;
   /** Production origin, no trailing slash. Previews use their own Vercel URL (lib/seo.ts). */
   url: string;
   businessName: string;
@@ -31,6 +36,7 @@ export type SiteContent = {
 
 export const site: SiteContent = {
   languages: ["en"],
+  translationsReviewed: false,
   url: placeholder("production domain, e.g. https://sacreations.com"),
   businessName: "S&A Creations",
   legalName: "Alvarado Legacy Consulting, LLC",

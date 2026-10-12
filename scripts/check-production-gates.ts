@@ -1,4 +1,5 @@
 import { content } from "../content";
+import { site } from "../content/site";
 import { runGates } from "../lib/gates";
 
 // Runs before every build (npm "prebuild") but only blocks production (VERCEL_ENV=production), so
@@ -6,7 +7,7 @@ import { runGates } from "../lib/gates";
 const force = process.argv.includes("--all");
 
 if (force || process.env.VERCEL_ENV === "production") {
-  for (const gate of runGates(content)) {
+  for (const gate of runGates(content, site)) {
     if (gate.problems.length === 0) {
       console.log(`${gate.name}: PASS`);
       continue;
