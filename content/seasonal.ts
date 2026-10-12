@@ -96,7 +96,16 @@ export const seasonal: SeasonalContent = {
         es: "Canastas de otoño acogedoras, dulces de Halloween y decoración para fiestas, hechos a mano y a tu medida. Dinos para quién es y nosotros nos encargamos del resto.",
       },
       occasions: [{ en: "Fall baskets", es: "Canastas de otoño" }, { en: "Halloween treats", es: "Dulces de Halloween" }, { en: "Fall parties", es: "Fiestas de otoño" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/fall-2026.jpg",
+        alt: {
+          en: "White wicker basket with a fabric pumpkin, red berries, pine cones and dried leaves on a brown blanket",
+          es: "Canasta de mimbre blanca con una calabaza de tela, frutos rojos, piñas y hojas secas sobre una cobija café",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/SLPRuQSuKqQ",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Order a fall basket", es: "Pide una canasta de otoño" }, service: "gifts" },
     },
     {
@@ -110,7 +119,16 @@ export const seasonal: SeasonalContent = {
         es: "Regalos para la anfitriona, canastas de agradecimiento y centros de mesa para tu reunión familiar. Haz tu pedido con tiempo para que quede perfecto.",
       },
       occasions: [{ en: "Hostess gifts", es: "Regalos para la anfitriona" }, { en: "Thank-you baskets", es: "Canastas de agradecimiento" }, { en: "Centerpieces", es: "Centros de mesa" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/thanksgiving-2026.jpg",
+        alt: {
+          en: "Long candlelit dinner table set with folded napkins, glasses and red and yellow flowers",
+          es: "Mesa larga iluminada con velas, con servilletas dobladas, copas y flores rojas y amarillas",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/fb0_wj2MZk4",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Plan your Thanksgiving gift", es: "Planea tu regalo de Acción de Gracias" }, service: "gifts" },
     },
     {
@@ -124,7 +142,16 @@ export const seasonal: SeasonalContent = {
         es: "Canastas navideñas personalizadas para familia, amigos, maestros y clientes, y decoración para tu fiesta navideña. En diciembre los lugares se llenan rápido.",
       },
       occasions: [{ en: "Gift baskets", es: "Canastas de regalo" }, { en: "Office & client gifts", es: "Regalos para la oficina y clientes" }, { en: "Holiday parties", es: "Fiestas navideñas" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/christmas-2026.jpg",
+        alt: {
+          en: "Open wicker gift basket with candles and jars in front of a frosted Christmas tree with silver ornaments",
+          es: "Canasta de regalo de mimbre abierta con velas y frascos frente a un árbol de Navidad nevado con esferas plateadas",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/SrnCpsp9sGY",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Order holiday gifts", es: "Pide tus regalos navideños" }, service: "gifts" },
     },
     {
@@ -138,7 +165,16 @@ export const seasonal: SeasonalContent = {
         es: "Recibe el año nuevo con una celebración y después demuéstrale tu cariño a alguien con una canasta de San Valentín hecha especialmente para esa persona.",
       },
       occasions: [{ en: "New Year events", es: "Eventos de Año Nuevo" }, { en: "Valentine's baskets", es: "Canastas de San Valentín" }, { en: "Date-night setups", es: "Decoración para una cita romántica" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/new-year-valentines-2027.jpg",
+        alt: {
+          en: "Red roses in a red gift box with a heart pick, a lit tea light and scattered petals on a dark table",
+          es: "Rosas rojas en una caja de regalo roja con un corazón, una velita encendida y pétalos sobre una mesa oscura",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/moguvg7jWVU",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Plan something sweet", es: "Planea algo dulce" }, service: "gifts" },
     },
     {
@@ -152,7 +188,16 @@ export const seasonal: SeasonalContent = {
         es: "Canastas para el Día de las Madres, baby showers y celebraciones de primavera, diseñadas pensando en la persona que celebras.",
       },
       occasions: [{ en: "Mother's Day baskets", es: "Canastas para el Día de las Madres" }, { en: "Baby showers", es: "Baby showers" }, { en: "Quinceañeras", es: "Quinceañeras" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/spring-mothers-day-2027.jpg",
+        alt: {
+          en: "White basket filled with pink and magenta carnations and a small red gift box",
+          es: "Canasta blanca llena de claveles rosas y fucsia y una pequeña caja de regalo roja",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/xCxpOUeXh_0",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Celebrate Mom", es: "Celebra a mamá" }, service: "gifts" },
     },
     {
@@ -166,7 +211,16 @@ export const seasonal: SeasonalContent = {
         es: "Canastas de graduación, regalos de agradecimiento para maestros y decoración para el gran día.",
       },
       occasions: [{ en: "Grad baskets", es: "Canastas de graduación" }, { en: "Teacher gifts", es: "Regalos para maestros" }, { en: "Graduation parties", es: "Fiestas de graduación" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/graduation-2027.jpg",
+        alt: {
+          en: "\"Congrats Grad!\" party decoration hanging among balloons and paper stars",
+          es: "Adorno de fiesta que dice \"Congrats Grad!\" colgado entre globos y estrellas de papel",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/eYoccjHKbpE",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Plan the celebration", es: "Planea la celebración" }, service: "events" },
     },
     {
@@ -180,7 +234,16 @@ export const seasonal: SeasonalContent = {
         es: "Fiestas de verano, decoración de cumpleaños y regalos de regreso a clases para empezar el año con el pie derecho.",
       },
       occasions: [{ en: "Summer events", es: "Eventos de verano" }, { en: "Birthday setups", es: "Decoración de cumpleaños" }, { en: "Back-to-school gifts", es: "Regalos de regreso a clases" }],
-      photo: { kind: "none" },
+      photo: {
+        src: "/images/seasonal/summer-2027.jpg",
+        alt: {
+          en: "Jar of baby's breath on an outdoor party table with salads, guests out of focus in the garden behind",
+          es: "Frasco con flores de nube en una mesa de fiesta al aire libre con ensaladas, y los invitados desenfocados en el jardín",
+        },
+        kind: "stock",
+        sourceUrl: "https://unsplash.com/photos/5EJzmEqif0Q",
+        label: { en: "Stock photo", es: "Foto de stock" },
+      },
       cta: { label: { en: "Plan your summer event", es: "Planea tu evento de verano" }, service: "events" },
     },
   ],

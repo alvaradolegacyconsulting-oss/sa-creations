@@ -13,7 +13,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-174 pieces of text; every one has Spanish.
+182 pieces of text; every one has Spanish.
 
 ## Site-wide (titles, header, footer)
 
@@ -149,18 +149,22 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `seasonal.seasons[0].occasions[0]` | Fall baskets | Canastas de otoño |
 | `seasonal.seasons[0].occasions[1]` | Halloween treats | Dulces de Halloween |
 | `seasonal.seasons[0].occasions[2]` | Fall parties | Fiestas de otoño |
+| `seasonal.seasons[0].photo.alt` | White wicker basket with a fabric pumpkin, red berries, pine cones and dried leaves on a brown blanket | Canasta de mimbre blanca con una calabaza de tela, frutos rojos, piñas y hojas secas sobre una cobija café |
+| `seasonal.seasons[0].photo.label` (also `seasonal.seasons[1].photo.label`, `seasonal.seasons[2].photo.label`, `seasonal.seasons[3].photo.label`, `seasonal.seasons[4].photo.label`, `seasonal.seasons[5].photo.label`, `seasonal.seasons[6].photo.label`) | Stock photo | Foto de stock |
 | `seasonal.seasons[0].cta.label` | Order a fall basket | Pide una canasta de otoño |
 | `seasonal.seasons[1].name` | Thanksgiving | Día de Acción de Gracias |
 | `seasonal.seasons[1].headline` | Bring something special to the table. | Lleva algo especial a la mesa. |
 | `seasonal.seasons[1].body` | Hostess gifts, thank-you baskets and centerpieces for your family gathering. Order early so we can make it just right. | Regalos para la anfitriona, canastas de agradecimiento y centros de mesa para tu reunión familiar. Haz tu pedido con tiempo para que quede perfecto. |
 | `seasonal.seasons[1].occasions[0]` | Hostess gifts | Regalos para la anfitriona |
 | `seasonal.seasons[1].occasions[1]` | Thank-you baskets | Canastas de agradecimiento |
+| `seasonal.seasons[1].photo.alt` | Long candlelit dinner table set with folded napkins, glasses and red and yellow flowers | Mesa larga iluminada con velas, con servilletas dobladas, copas y flores rojas y amarillas |
 | `seasonal.seasons[1].cta.label` | Plan your Thanksgiving gift | Planea tu regalo de Acción de Gracias |
 | `seasonal.seasons[2].name` | Christmas & holidays | Navidad y fiestas |
 | `seasonal.seasons[2].headline` | Give a gift they'll remember. | Da un regalo que nunca olviden. |
 | `seasonal.seasons[2].body` | Custom holiday baskets for family, friends, teachers and clients, plus decor for your holiday party. Spots fill up fast in December. | Canastas navideñas personalizadas para familia, amigos, maestros y clientes, y decoración para tu fiesta navideña. En diciembre los lugares se llenan rápido. |
 | `seasonal.seasons[2].occasions[1]` | Office & client gifts | Regalos para la oficina y clientes |
 | `seasonal.seasons[2].occasions[2]` | Holiday parties | Fiestas navideñas |
+| `seasonal.seasons[2].photo.alt` | Open wicker gift basket with candles and jars in front of a frosted Christmas tree with silver ornaments | Canasta de regalo de mimbre abierta con velas y frascos frente a un árbol de Navidad nevado con esferas plateadas |
 | `seasonal.seasons[2].cta.label` | Order holiday gifts | Pide tus regalos navideños |
 | `seasonal.seasons[3].name` | New Year & Valentine's | Año Nuevo y San Valentín |
 | `seasonal.seasons[3].headline` | Start the year with something sweet. | Empieza el año con algo dulce. |
@@ -168,11 +172,13 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `seasonal.seasons[3].occasions[0]` | New Year events | Eventos de Año Nuevo |
 | `seasonal.seasons[3].occasions[1]` | Valentine's baskets | Canastas de San Valentín |
 | `seasonal.seasons[3].occasions[2]` | Date-night setups | Decoración para una cita romántica |
+| `seasonal.seasons[3].photo.alt` | Red roses in a red gift box with a heart pick, a lit tea light and scattered petals on a dark table | Rosas rojas en una caja de regalo roja con un corazón, una velita encendida y pétalos sobre una mesa oscura |
 | `seasonal.seasons[3].cta.label` | Plan something sweet | Planea algo dulce |
 | `seasonal.seasons[4].name` | Spring & Mother's Day | Primavera y Día de las Madres |
 | `seasonal.seasons[4].headline` | For the moms who do it all. | Para las mamás que lo hacen todo. |
 | `seasonal.seasons[4].body` | Mother's Day baskets, baby showers and spring celebrations, designed around the person you're celebrating. | Canastas para el Día de las Madres, baby showers y celebraciones de primavera, diseñadas pensando en la persona que celebras. |
 | `seasonal.seasons[4].occasions[0]` | Mother's Day baskets | Canastas para el Día de las Madres |
+| `seasonal.seasons[4].photo.alt` | White basket filled with pink and magenta carnations and a small red gift box | Canasta blanca llena de claveles rosas y fucsia y una pequeña caja de regalo roja |
 | `seasonal.seasons[4].cta.label` | Celebrate Mom | Celebra a mamá |
 | `seasonal.seasons[5].name` | Graduation & end of school | Graduación y fin de clases |
 | `seasonal.seasons[5].headline` | They did it. Celebrate in style. | Lo lograron. Celébralo en grande. |
@@ -180,6 +186,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `seasonal.seasons[5].occasions[0]` | Grad baskets | Canastas de graduación |
 | `seasonal.seasons[5].occasions[1]` | Teacher gifts | Regalos para maestros |
 | `seasonal.seasons[5].occasions[2]` | Graduation parties | Fiestas de graduación |
+| `seasonal.seasons[5].photo.alt` | "Congrats Grad!" party decoration hanging among balloons and paper stars | Adorno de fiesta que dice "Congrats Grad!" colgado entre globos y estrellas de papel |
 | `seasonal.seasons[5].cta.label` | Plan the celebration | Planea la celebración |
 | `seasonal.seasons[6].name` | Summer & back to school | Verano y regreso a clases |
 | `seasonal.seasons[6].headline` | Make summer a celebration. | Haz del verano una celebración. |
@@ -187,6 +194,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `seasonal.seasons[6].occasions[0]` | Summer events | Eventos de verano |
 | `seasonal.seasons[6].occasions[1]` | Birthday setups | Decoración de cumpleaños |
 | `seasonal.seasons[6].occasions[2]` | Back-to-school gifts | Regalos de regreso a clases |
+| `seasonal.seasons[6].photo.alt` | Jar of baby's breath on an outdoor party table with salads, guests out of focus in the garden behind | Frasco con flores de nube en una mesa de fiesta al aire libre con ensaladas, y los invitados desenfocados en el jardín |
 | `seasonal.seasons[6].cta.label` | Plan your summer event | Planea tu evento de verano |
 
 ## Gallery
