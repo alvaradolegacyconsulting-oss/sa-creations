@@ -30,16 +30,19 @@ export const hero: HeroContent = {
       alt: {
         en: "Church altar decorated for a wedding: white drapes and greenery framing a lit LOVE sign, white flower stands and a white aisle runner",
       },
+      kind: "real",
       label: { en: "Real photo: an event you decorated" },
     },
     {
       src: "/images/wedding-gift-basket-rose-wine.jpg",
       alt: { en: "Wedding gift basket with a lace-wrapped bottle of rosé, two glasses filled with chocolates and ivory flower trim" },
+      kind: "real",
       label: { en: "Real photo: gift basket" },
     },
     {
       src: "/images/burgundy-ivory-floral-arrangement.jpg",
       alt: { en: "Floral arrangement of burgundy and ivory roses, a white orchid and eucalyptus over gold sequin fabric" },
+      kind: "real",
       label: { en: "Real photo: floral arrangement" },
     },
   ],

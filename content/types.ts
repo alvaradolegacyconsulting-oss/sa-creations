@@ -28,12 +28,18 @@ export type SectionIntro = {
 
 /**
  * A photo in public/images/. `src: null` renders a labelled placeholder box instead, and the
- * production build fails while any remain (real photos only; see the preflight).
+ * production build fails while any remain. Real photos of S&A's own work everywhere, except the
+ * seasons, where licensed stock stand-ins are allowed; the gates list every one (STOCK_IN_USE).
  */
 export type Photo = {
   src: string | null;
+  /** Describes what is in the picture. A stock photo's alt never claims it is S&A's work. */
   alt: LocalizedText;
-  /** Shown inside the placeholder box until the real photo arrives, e.g. "Real photo: gift basket". */
+  /** "real": S&A's own work. "stock": a licensed stand-in (seasons only). */
+  kind: "real" | "stock";
+  /** Where a stock photo was licensed from (its page on the stock site). */
+  sourceUrl?: string;
+  /** Shown inside the placeholder box until the file arrives, e.g. "Real photo: gift basket". */
   label: LocalizedText;
 };
 

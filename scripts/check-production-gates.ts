@@ -1,7 +1,7 @@
 import { content } from "../content";
 import { seasonal } from "../content/seasonal";
 import { site } from "../content/site";
-import { runGates } from "../lib/gates";
+import { findStockPhotos, runGates } from "../lib/gates";
 import { findSeasonProblems } from "../lib/seasons";
 
 // Broken data fails every build, previews included: a season with an impossible date or an overlap
@@ -27,4 +27,9 @@ if (force || process.env.VERCEL_ENV === "production") {
     for (const problem of gate.problems) console.error(`- ${problem}`);
     process.exitCode = 1;
   }
+
+  // Not a gate: licensed stand-ins are allowed, but listed so they get replaced with S&A's own photos.
+  const stock = findStockPhotos(content);
+  console.log(stock.length === 0 ? "STOCK_IN_USE: none" : `STOCK_IN_USE (not blocking): ${stock.length} stock photo(s):`);
+  for (const photo of stock) console.log(`- ${photo}`);
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { content } from "@/content";
 import { site } from "@/content/site";
-import { findMissingPhotos, findPlaceholders, findUntranslated, runGates } from "@/lib/gates";
+import { collectPhotos, findMissingPhotos, findPlaceholders, findStockPhotos, findUntranslated, runGates } from "@/lib/gates";
 
 const englishOnly = { languages: ["en" as const], translationsReviewed: false };
 const bilingual = (translationsReviewed: boolean) => ({ languages: ["en" as const, "es" as const], translationsReviewed });
@@ -14,14 +14,14 @@ describe("PLACEHOLDERS_RESOLVED", () => {
 
   it("finds photos whose src is still null", () => {
     const photos = [
-      { src: null, alt: { en: "x" }, label: { en: "Real photo: cake" } },
-      { src: "/images/a.jpg", alt: { en: "y" }, label: { en: "Real photo: arch" } },
+      { src: null, alt: { en: "x" }, kind: "real", label: { en: "Real photo: cake" } },
+      { src: "/images/a.jpg", alt: { en: "y" }, kind: "real", label: { en: "Real photo: arch" } },
     ];
     expect(findMissingPhotos(photos, "hero.photos")).toEqual(["hero.photos[0].src is null (Real photo: cake)"]);
   });
 
   it("accepts an intentional no-photo marker but not a missing photo", () => {
-    const services = [{ photo: { kind: "none" } }, { photo: { src: null, alt: { en: "x" }, label: { en: "Real photo" } } }];
+    const services = [{ photo: { kind: "none" } }, { photo: { src: null, alt: { en: "x" }, kind: "real", label: { en: "Real photo" } } }];
     expect(runGates({ services }, englishOnly)[0].problems).toEqual(["services[1].photo.src is null (Real photo)"]);
   });
 
@@ -70,5 +70,41 @@ describe("TRANSLATIONS_REVIEWED", () => {
     expect(gate(runGates({}, bilingual(false)), "TRANSLATIONS_REVIEWED").problems).toHaveLength(1);
     expect(gate(runGates({}, bilingual(true)), "TRANSLATIONS_REVIEWED").problems).toEqual([]);
     expect(gate(runGates({}, englishOnly), "TRANSLATIONS_REVIEWED").problems).toEqual([]);
+  });
+});
+
+describe("STOCK_IN_USE (never fails)", () => {
+  const stock = (src: string | null, sourceUrl?: string) => ({ src, alt: { en: "A gift basket" }, kind: "stock", sourceUrl, label: { en: "Stock photo" } });
+
+  it("lists each stock photo on the site with its source, and skips real ones and files not supplied yet", () => {
+    const content = {
+      seasonal: { seasons: [{ photo: stock("/images/seasonal/fall-2026.jpg", "https://stock.example/123") }, { photo: stock("/images/seasonal/x.jpg") }, { photo: stock(null) }] },
+      hero: { photos: [{ src: "/images/a.jpg", alt: { en: "y" }, kind: "real", label: { en: "Real photo" } }] },
+    };
+    expect(findStockPhotos(content)).toEqual([
+      "seasonal.seasons[0].photo: /images/seasonal/fall-2026.jpg (source: https://stock.example/123)",
+      "seasonal.seasons[1].photo: /images/seasonal/x.jpg (source: not recorded)",
+    ]);
+  });
+
+  it("is not one of the gates, so stock never blocks production", () => {
+    expect(runGates({}, englishOnly).map((g) => g.name)).not.toContain("STOCK_IN_USE");
+  });
+});
+
+describe("photo sources in content", () => {
+  const photos = Object.entries(content).flatMap(([name, value]) => collectPhotos(value, name));
+
+  it("uses stock only for seasons; everything else is S&A's own work", () => {
+    for (const { path, photo } of photos) {
+      if (photo.kind === "stock") expect(path).toMatch(/^seasonal\./);
+    }
+  });
+
+  it("never describes a stock photo as S&A's work", () => {
+    const claims = /S&A|\bour\b|\bwe\b|\bnuestr|hecho por nosotros/i;
+    for (const { photo } of photos.filter(({ photo }) => photo.kind === "stock")) {
+      for (const text of [photo.alt.en, photo.alt.es ?? "", photo.label.en, photo.label.es ?? ""]) expect(text).not.toMatch(claims);
+    }
   });
 });

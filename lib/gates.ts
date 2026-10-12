@@ -1,6 +1,6 @@
 // Relative imports only: scripts/check-production-gates.ts runs this under tsx without the "@/" alias.
 import type { SiteContent } from "../content/site";
-import { PLACEHOLDER, TRANSLATE } from "../content/types";
+import { PLACEHOLDER, TRANSLATE, type Photo } from "../content/types";
 
 /** Every string under `value` that still contains "[PLACEHOLDER", as "path: text". */
 export function findPlaceholders(value: unknown, path = "content"): string[] {
@@ -22,6 +22,26 @@ export function findMissingPhotos(value: unknown, path = "content"): string[] {
     return [`${path}.src is null (${label})`];
   }
   return Object.entries(record).flatMap(([key, item]) => findMissingPhotos(item, `${path}.${key}`));
+}
+
+/** Every Photo (an object with src, alt, kind and label) under `value`, with its path (from a1wrecker). */
+export function collectPhotos(value: unknown, path = "content"): { path: string; photo: Photo }[] {
+  if (Array.isArray(value)) return value.flatMap((item, index) => collectPhotos(item, `${path}[${index}]`));
+  if (!value || typeof value !== "object") return [];
+  const record = value as Record<string, unknown>;
+  if ("src" in record && "alt" in record && "kind" in record && "label" in record) return [{ path, photo: record as Photo }];
+  return Object.entries(record).flatMap(([key, item]) => collectPhotos(item, `${path}.${key}`));
+}
+
+/**
+ * STOCK_IN_USE (never fails): every stock photo on the site, as "path: src (source)", so the
+ * stand-ins stay visible until real photos replace them.
+ */
+export function findStockPhotos(content: Record<string, unknown>): string[] {
+  return Object.entries(content)
+    .flatMap(([name, value]) => collectPhotos(value, name))
+    .filter(({ photo }) => photo.kind === "stock" && photo.src !== null)
+    .map(({ path, photo }) => `${path}: ${photo.src} (source: ${photo.sourceUrl ?? "not recorded"})`);
 }
 
 /** A LocalizedText: an object whose only keys are `en` (a string) and, optionally, `es`. */
