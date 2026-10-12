@@ -8,11 +8,13 @@ import { site } from "@/content/site";
 import {
   SERVICE_PARAM,
   SERVICE_PRESELECT_EVENT,
-  isConfirmedSent,
+  contactLimits,
+  interpretReply,
   payloadFromForm,
   serviceFromParam,
   withoutServiceParam,
 } from "@/lib/contact";
+import { isValidEmail } from "@/lib/email-rule";
 import { t } from "@/lib/i18n";
 
 type FormStatus = "idle" | "invalid" | "pending" | "sent" | "failed";
@@ -64,14 +66,14 @@ export function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
 
+    // The browser's own checks, plus the server's email rule ("maria@email" passes type="email").
     const badFields = [...form.elements].filter(
       (element): element is HTMLInputElement | HTMLTextAreaElement =>
-        (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) && !element.checkValidity(),
+        (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) &&
+        (!element.checkValidity() || (element.name === "email" && !isValidEmail(element.value))),
     );
     if (badFields.length > 0) {
-      setInvalid(badFields.map((field) => field.name));
-      setStatus("invalid");
-      badFields[0].focus();
+      showInvalid(form, badFields.map((field) => field.name));
       return;
     }
 
@@ -83,17 +85,30 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payloadFromForm(form)),
       });
-      const sent = await isConfirmedSent(response);
-      // Success is shown only after the server confirms the email API accepted it.
-      // On failure the fields stay filled so nothing is lost.
-      setStatus(sent ? "sent" : "failed");
-      if (sent) {
+      const outcome = await interpretReply(response);
+      // Success is shown only after the server confirms the email API accepted it. A field the
+      // server rejected is a field to fix, not a failed send. Either way the fields stay filled.
+      if (outcome.kind === "invalid") {
+        showInvalid(form, outcome.fields);
+        return;
+      }
+      setStatus(outcome.kind);
+      if (outcome.kind === "sent") {
         form.reset();
         setServices([]);
       }
     } catch {
       setStatus("failed");
     }
+  }
+
+  /** Marks the fields, shows the inline message and focuses the first one. Nothing is sent. */
+  function showInvalid(form: HTMLFormElement, names: string[]) {
+    setInvalid(names);
+    setStatus("invalid");
+    const first = form.elements.namedItem(names[0]);
+    if (first instanceof HTMLElement) first.focus();
+    else if (first instanceof RadioNodeList && first[0] instanceof HTMLElement) first[0].focus();
   }
 
   const { labels } = contact;
@@ -105,9 +120,25 @@ export function ContactForm() {
   return (
     <form className="space-y-5 rounded-lg border border-line bg-ivory p-5 text-ink sm:p-7" onSubmit={handleSubmit} noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t(labels.name)} name="name" autoComplete="name" required {...fieldProps("name")} />
-        <Field label={t(labels.email)} name="email" type="email" autoComplete="email" required {...fieldProps("email")} />
-        <Field label={t(labels.phone)} hint={t(labels.optional)} name="phone" type="tel" autoComplete="tel" {...fieldProps("phone")} />
+        <Field label={t(labels.name)} name="name" autoComplete="name" required maxLength={contactLimits.name} {...fieldProps("name")} />
+        <Field
+          label={t(labels.email)}
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          maxLength={contactLimits.email}
+          {...fieldProps("email")}
+        />
+        <Field
+          label={t(labels.phone)}
+          hint={t(labels.optional)}
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          maxLength={contactLimits.phone}
+          {...fieldProps("phone")}
+        />
         <Field label={t(labels.date)} hint={t(labels.optional)} name="date" type="date" {...fieldProps("date")} />
       </div>
 
@@ -136,7 +167,15 @@ export function ContactForm() {
         <label className="mb-1.5 block text-sm font-semibold" htmlFor="details">
           {t(labels.details)}
         </label>
-        <textarea className={`${inputClasses} min-h-32 resize-y py-2`} id="details" name="details" rows={5} required {...fieldProps("details")} />
+        <textarea
+          className={`${inputClasses} min-h-32 resize-y py-2`}
+          id="details"
+          name="details"
+          rows={5}
+          required
+          maxLength={contactLimits.details}
+          {...fieldProps("details")}
+        />
       </div>
 
       <div className="absolute -left-[10000px] top-auto size-px overflow-hidden" aria-hidden="true">
@@ -199,6 +238,7 @@ function Field({
   type?: string;
   autoComplete?: string;
   required?: boolean;
+  maxLength?: number;
   "aria-invalid"?: boolean;
   "aria-describedby"?: string;
 }) {

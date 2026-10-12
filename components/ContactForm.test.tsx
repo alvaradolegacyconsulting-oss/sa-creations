@@ -7,6 +7,7 @@ import { ContactSection } from "@/components/ContactSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { contact } from "@/content/contact";
 import { site } from "@/content/site";
+import { contactLimits } from "@/lib/contact";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -47,6 +48,45 @@ describe("ContactForm (FORM_UI)", () => {
     expect(screen.getByLabelText("Email").getAttribute("aria-invalid")).toBe("true");
   });
 
+  it("catches an address the server would reject (maria@email) before sending", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+    render(<ContactForm />);
+    await fillRequired(user);
+    await user.clear(screen.getByLabelText("Email"));
+    await user.type(screen.getByLabelText("Email"), "maria@email");
+
+    await user.click(submit());
+    expect(screen.getByRole("alert").textContent).toContain(contact.invalid.en);
+    expect(screen.getByLabelText("Email").getAttribute("aria-invalid")).toBe("true");
+    expect(document.activeElement).toBe(screen.getByLabelText("Email"));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("shows a field the server rejected as a field to fix, not a failed send, keeping what was typed", async () => {
+    vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(new Response('{"ok":false,"reason":"invalid","fields":["email"]}', { status: 400 }))));
+    const user = userEvent.setup();
+    render(<ContactForm />);
+    await fillRequired(user);
+
+    await user.click(submit());
+    const alert = await screen.findByRole("alert");
+    expect(alert.textContent).toContain(contact.invalid.en);
+    expect(alert.textContent).not.toContain(contact.failure.en);
+    expect(screen.getByLabelText("Email").getAttribute("aria-invalid")).toBe("true");
+    expect(document.activeElement).toBe(screen.getByLabelText("Email"));
+    expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe("Maria Lopez");
+  });
+
+  it("limits each field to what the server accepts", () => {
+    render(<ContactForm />);
+    expect((screen.getByLabelText("Name") as HTMLInputElement).maxLength).toBe(contactLimits.name);
+    expect((screen.getByLabelText("Email") as HTMLInputElement).maxLength).toBe(contactLimits.email);
+    expect((screen.getByLabelText(/Phone/) as HTMLInputElement).maxLength).toBe(contactLimits.phone);
+    expect((screen.getByLabelText("Tell us about it") as HTMLTextAreaElement).maxLength).toBe(contactLimits.details);
+  });
+
   it("shows a pending state while sending", async () => {
     let finish: (response: Response) => void = () => {};
     vi.stubGlobal("fetch", vi.fn(() => new Promise<Response>((resolve) => (finish = resolve))));
@@ -65,6 +105,7 @@ describe("ContactForm (FORM_UI)", () => {
     ["a missing route (404)", () => Promise.resolve(new Response("Not found", { status: 404 }))],
     ["a network error", () => Promise.reject(new TypeError("Failed to fetch"))],
     ["ok: false", () => Promise.resolve(new Response('{"ok":false,"error":"x"}', { status: 200 }))],
+    ["a send failure (bad API key)", () => Promise.resolve(new Response('{"ok":false,"reason":"send-failed"}', { status: 502 }))],
   ])("on %s shows the email address and keeps every field filled", async (_name, reply) => {
     vi.stubGlobal("fetch", vi.fn(reply));
     const user = userEvent.setup();
@@ -93,7 +134,7 @@ describe("ContactForm (FORM_UI)", () => {
     await user.click(submit());
     expect((await screen.findByRole("status")).textContent).toContain(contact.success.en);
     const body = JSON.parse((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
-    expect(body).toMatchObject({ name: "Maria Lopez", email: "maria@example.com", services: ["gifts"], website: "" });
+    expect(body).toMatchObject({ name: "Maria Lopez", email: "maria@example.com", services: ["gifts"], locale: "en", website: "" });
     expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe("");
     expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(false);
   });

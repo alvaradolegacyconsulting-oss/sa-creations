@@ -90,13 +90,28 @@ export function payloadFromForm(form: HTMLFormElement): ContactPayload {
   };
 }
 
-/** True only for a 2xx reply whose body is exactly { ok: true }. Anything else is a failure (from alc-site). */
-export async function isConfirmedSent(response: Response): Promise<boolean> {
-  if (!response.ok) return false;
+/** What the form should show for a reply. */
+export type ContactOutcome = { kind: "sent" } | { kind: "invalid"; fields: ContactField[] } | { kind: "failed" };
+
+/**
+ * Sent only for a 2xx reply whose body is exactly { ok: true }. Invalid only for a 400 that says
+ * reason "invalid" and names at least one known field. Anything else is a failure (from alc-site).
+ */
+export async function interpretReply(response: Response): Promise<ContactOutcome> {
+  let body: unknown;
   try {
-    const body: unknown = await response.json();
-    return typeof body === "object" && body !== null && (body as { ok?: unknown }).ok === true;
+    body = await response.json();
   } catch {
-    return false;
+    return { kind: "failed" };
   }
+  if (typeof body !== "object" || body === null) return { kind: "failed" };
+  const reply = body as { ok?: unknown; reason?: unknown; fields?: unknown };
+
+  if (response.ok && reply.ok === true) return { kind: "sent" };
+  if (response.status === 400 && reply.ok === false && reply.reason === "invalid" && Array.isArray(reply.fields)) {
+    const known: readonly string[] = contactFields;
+    const fields = reply.fields.filter((field): field is ContactField => typeof field === "string" && known.includes(field));
+    if (fields.length > 0) return { kind: "invalid", fields };
+  }
+  return { kind: "failed" };
 }
