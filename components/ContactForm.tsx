@@ -5,6 +5,7 @@ import { buttonClasses } from "@/components/ButtonLink";
 import { contact } from "@/content/contact";
 import type { ServiceId } from "@/content/services";
 import { site } from "@/content/site";
+import type { Locale } from "@/content/types";
 import {
   SERVICE_PARAM,
   SERVICE_PRESELECT_EVENT,
@@ -33,7 +34,7 @@ const inputClasses =
  * "Sending...") · sent (only after /api/contact confirms { ok: true }) · failed (the inquiry email
  * as a link; every field stays filled so nothing is lost).
  */
-export function ContactForm() {
+export function ContactForm({ locale }: { locale: Locale }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [invalid, setInvalid] = useState<string[]>([]);
   const [services, setServices] = useState<ServiceId[]>([]);
@@ -83,7 +84,7 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payloadFromForm(form)),
+        body: JSON.stringify(payloadFromForm(form, locale)),
       });
       const outcome = await interpretReply(response);
       // Success is shown only after the server confirms the email API accepted it. A field the
@@ -120,9 +121,9 @@ export function ContactForm() {
   return (
     <form className="space-y-5 rounded-lg border border-line bg-ivory p-5 text-ink sm:p-7" onSubmit={handleSubmit} noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t(labels.name)} name="name" autoComplete="name" required maxLength={contactLimits.name} {...fieldProps("name")} />
+        <Field label={t(labels.name, locale)} name="name" autoComplete="name" required maxLength={contactLimits.name} {...fieldProps("name")} />
         <Field
-          label={t(labels.email)}
+          label={t(labels.email, locale)}
           name="email"
           type="email"
           autoComplete="email"
@@ -131,20 +132,20 @@ export function ContactForm() {
           {...fieldProps("email")}
         />
         <Field
-          label={t(labels.phone)}
-          hint={t(labels.optional)}
+          label={t(labels.phone, locale)}
+          hint={t(labels.optional, locale)}
           name="phone"
           type="tel"
           autoComplete="tel"
           maxLength={contactLimits.phone}
           {...fieldProps("phone")}
         />
-        <Field label={t(labels.date)} hint={t(labels.optional)} name="date" type="date" {...fieldProps("date")} />
+        <Field label={t(labels.date, locale)} hint={t(labels.optional, locale)} name="date" type="date" {...fieldProps("date")} />
       </div>
 
       <fieldset>
         <legend className="text-sm font-semibold">
-          {t(labels.services)} <span className="font-normal text-ink/80">({t(labels.optional)})</span>
+          {t(labels.services, locale)} <span className="font-normal text-ink/80">({t(labels.optional, locale)})</span>
         </legend>
         <div className="mt-2 grid grid-cols-1 gap-x-5 min-[400px]:grid-cols-2 lg:flex lg:flex-wrap">
           {contact.serviceOptions.map((option) => (
@@ -157,7 +158,7 @@ export function ContactForm() {
                 checked={services.includes(option.id)}
                 onChange={(event) => toggleService(option.id, event.target.checked)}
               />
-              {t(option.label)}
+              {t(option.label, locale)}
             </label>
           ))}
         </div>
@@ -165,7 +166,7 @@ export function ContactForm() {
 
       <div>
         <label className="mb-1.5 block text-sm font-semibold" htmlFor="details">
-          {t(labels.details)}
+          {t(labels.details, locale)}
         </label>
         <textarea
           className={`${inputClasses} min-h-32 resize-y py-2`}
@@ -179,7 +180,7 @@ export function ContactForm() {
       </div>
 
       <div className="absolute -left-[10000px] top-auto size-px overflow-hidden" aria-hidden="true">
-        <label htmlFor="website">{t(labels.honeypot)}</label>
+        <label htmlFor="website">{t(labels.honeypot, locale)}</label>
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
@@ -188,15 +189,15 @@ export function ContactForm() {
         type="submit"
         disabled={status === "pending"}
       >
-        {t(status === "pending" ? contact.pending : contact.submit)}
+        {t(status === "pending" ? contact.pending : contact.submit, locale)}
       </button>
 
       <div id={STATUS_ID} aria-live="polite">
-        {status === "invalid" && <StatusMessage tone="failure">{t(contact.invalid)}</StatusMessage>}
-        {status === "sent" && <StatusMessage tone="success">{t(contact.success)}</StatusMessage>}
+        {status === "invalid" && <StatusMessage tone="failure">{t(contact.invalid, locale)}</StatusMessage>}
+        {status === "sent" && <StatusMessage tone="success">{t(contact.success, locale)}</StatusMessage>}
         {status === "failed" && (
           <StatusMessage tone="failure">
-            {t(contact.failure)}{" "}
+            {t(contact.failure, locale)}{" "}
             <a className="break-all font-semibold underline underline-offset-4" href={`mailto:${site.email}`}>
               {site.email}
             </a>

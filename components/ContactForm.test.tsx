@@ -27,7 +27,7 @@ describe("ContactForm (FORM_UI)", () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
 
     await user.click(submit());
     expect(screen.getByRole("alert").textContent).toContain(contact.invalid.en);
@@ -39,7 +39,7 @@ describe("ContactForm (FORM_UI)", () => {
   it("rejects a malformed email", async () => {
     vi.stubGlobal("fetch", vi.fn());
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
     await user.clear(screen.getByLabelText("Email"));
     await user.type(screen.getByLabelText("Email"), "maria-at-example");
@@ -52,7 +52,7 @@ describe("ContactForm (FORM_UI)", () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
     await user.clear(screen.getByLabelText("Email"));
     await user.type(screen.getByLabelText("Email"), "maria@email");
@@ -67,7 +67,7 @@ describe("ContactForm (FORM_UI)", () => {
   it("shows a field the server rejected as a field to fix, not a failed send, keeping what was typed", async () => {
     vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(new Response('{"ok":false,"reason":"invalid","fields":["email"]}', { status: 400 }))));
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
 
     await user.click(submit());
@@ -80,7 +80,7 @@ describe("ContactForm (FORM_UI)", () => {
   });
 
   it("limits each field to what the server accepts", () => {
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     expect((screen.getByLabelText("Name") as HTMLInputElement).maxLength).toBe(contactLimits.name);
     expect((screen.getByLabelText("Email") as HTMLInputElement).maxLength).toBe(contactLimits.email);
     expect((screen.getByLabelText(/Phone/) as HTMLInputElement).maxLength).toBe(contactLimits.phone);
@@ -91,7 +91,7 @@ describe("ContactForm (FORM_UI)", () => {
     let finish: (response: Response) => void = () => {};
     vi.stubGlobal("fetch", vi.fn(() => new Promise<Response>((resolve) => (finish = resolve))));
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
 
     await user.click(submit());
@@ -109,7 +109,7 @@ describe("ContactForm (FORM_UI)", () => {
   ])("on %s shows the email address and keeps every field filled", async (_name, reply) => {
     vi.stubGlobal("fetch", vi.fn(reply));
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
     await user.click(screen.getByLabelText("Custom decor"));
 
@@ -127,7 +127,7 @@ describe("ContactForm (FORM_UI)", () => {
     const fetchMock = vi.fn(() => Promise.resolve(new Response('{"ok":true}', { status: 200 })));
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     await fillRequired(user);
     await user.click(screen.getByLabelText("Custom gifts"));
 
@@ -141,7 +141,7 @@ describe("ContactForm (FORM_UI)", () => {
 
   it("preselects the service named in ?service= on first load, then drops it from the URL", () => {
     window.history.replaceState(null, "", "/?service=apparel#contact");
-    render(<ContactForm />);
+    render(<ContactForm locale="en" />);
     expect((screen.getByLabelText("Custom apparel") as HTMLInputElement).checked).toBe(true);
     expect((screen.getByLabelText("Event planning") as HTMLInputElement).checked).toBe(false);
     expect(window.location.search).toBe("");
@@ -153,8 +153,8 @@ describe("service CTAs on the home page", () => {
   function renderHome() {
     render(
       <>
-        <ServicesSection />
-        <ContactSection />
+        <ServicesSection locale="en" />
+        <ContactSection locale="en" />
       </>,
     );
   }

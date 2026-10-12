@@ -1,5 +1,6 @@
 import { contact } from "@/content/contact";
 import type { Locale } from "@/content/types";
+import { routes } from "@/lib/routes";
 import { sectionIds } from "@/content/navigation";
 import type { ServiceId } from "@/content/services";
 
@@ -16,9 +17,9 @@ export const contactLimits = {
 /** Query parameter a service CTA sets to preselect that service's checkbox in the form. */
 export const SERVICE_PARAM = "service";
 
-/** Link from a service card to the contact form with that service checked (from a1wrecker). */
-export function contactHrefForService(id: ServiceId): string {
-  return `/?${SERVICE_PARAM}=${id}#${sectionIds.contact}`;
+/** Link from a service card to the contact form, on this language's home page, with that service checked. */
+export function contactHrefForService(id: ServiceId, locale: Locale): string {
+  return `${routes.home[locale]}?${SERVICE_PARAM}=${id}#${sectionIds.contact}`;
 }
 
 /** The service for a ?service= value, or null for anything unknown. */
@@ -71,7 +72,7 @@ export type ContactResponse =
   | { ok: false; reason: "invalid"; fields: ContactField[] }
   | { ok: false; reason: "send-failed" };
 
-export function payloadFromForm(form: HTMLFormElement): ContactPayload {
+export function payloadFromForm(form: HTMLFormElement, locale: Locale): ContactPayload {
   const data = new FormData(form);
   const text = (name: string) => String(data.get(name) ?? "").trim();
 
@@ -85,7 +86,7 @@ export function payloadFromForm(form: HTMLFormElement): ContactPayload {
       .map((value) => serviceFromParam(String(value)))
       .filter((id): id is ServiceId => id !== null),
     details: text("details"),
-    locale: "en",
+    locale,
     website: text("website"),
   };
 }

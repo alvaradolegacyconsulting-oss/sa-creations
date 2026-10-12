@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SectionIntro } from "@/content/types";
+import type { Locale, SectionIntro } from "@/content/types";
 import { EmphasizedText } from "@/components/EmphasizedText";
 import { t } from "@/lib/i18n";
 
@@ -29,6 +29,7 @@ export function Eyebrow({ children, dark = false, className = "" }: { children: 
 export function Section({
   id,
   intro,
+  locale,
   tone = "ivory",
   centered = false,
   aside,
@@ -36,6 +37,7 @@ export function Section({
 }: {
   id: string;
   intro: SectionIntro;
+  locale: Locale;
   tone?: SectionTone;
   /** Centered eyebrow and heading (services); otherwise left-aligned. */
   centered?: boolean;
@@ -51,12 +53,12 @@ export function Section({
       <Container>
         <div className={centered ? "text-center" : "sm:flex sm:items-end sm:justify-between sm:gap-8"}>
           <div className={centered ? "mx-auto max-w-3xl" : "max-w-2xl"}>
-            <Eyebrow dark={dark}>{t(intro.eyebrow)}</Eyebrow>
+            <Eyebrow dark={dark}>{t(intro.eyebrow, locale)}</Eyebrow>
             <h2
               id={headingId}
               className={`mt-3 font-display text-[2.25rem] font-medium leading-[1.1] sm:text-5xl ${dark ? "text-ivory" : "text-navy"}`}
             >
-              <EmphasizedText text={intro.heading} />
+              <EmphasizedText text={intro.heading} locale={locale} />
             </h2>
           </div>
           {aside && <div className="mt-4 sm:mt-0 sm:shrink-0">{aside}</div>}

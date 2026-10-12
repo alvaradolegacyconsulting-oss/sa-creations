@@ -5,6 +5,9 @@
 export const locales = ["en", "es"] as const;
 export type Locale = (typeof locales)[number];
 
+/** Served at "/"; the other language is served under "/<code>" once content/site.ts languages lists it. */
+export const defaultLocale: Locale = "en";
+
 export type LocalizedText = {
   en: string;
   es?: string;
@@ -42,6 +45,9 @@ export type NoPhoto = { kind: "none" };
 
 /** Marks a value Jose hasn't confirmed yet. The production build fails while any remain (lib/gates.ts). */
 export const PLACEHOLDER = "[PLACEHOLDER";
+
+/** Marks a missing translation. TRANSLATIONS_COMPLETE blocks production while any show (lib/gates.ts). */
+export const TRANSLATE = "[TRANSLATE";
 
 /** "[PLACEHOLDER: what]": shows on previews, blocks the production build. */
 export function placeholder(what: string): string {

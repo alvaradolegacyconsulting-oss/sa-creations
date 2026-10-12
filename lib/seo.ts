@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { SiteContent } from "@/content/site";
-import { pages } from "@/lib/routes";
+import { defaultLocale } from "@/content/types";
+import { routes } from "@/lib/routes";
 
 /** Pages listed in the sitemap. */
-export const sitemapPaths: string[] = [pages.home];
+export const sitemapPaths: string[] = [routes.home[defaultLocale]];
 
 /** Served by app/opengraph-image.tsx. */
 const ogImage = { url: "/opengraph-image", width: 1200, height: 630, type: "image/png" };

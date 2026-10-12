@@ -4,6 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 import { ArrowLink } from "@/components/ButtonLink";
 import { sectionIds } from "@/content/navigation";
 import type { ServiceId } from "@/content/services";
+import type { Locale } from "@/content/types";
 import { contactHrefForService, requestServicePreselect } from "@/lib/contact";
 
 /**
@@ -11,7 +12,17 @@ import { contactHrefForService, requestServicePreselect } from "@/lib/contact";
  * jumps to #contact without a reload, so anything already typed stays. The href still works on its
  * own (opened in a new tab, or without JavaScript): the form reads ?service= on first load.
  */
-export function ServiceCta({ service, className = "", children }: { service: ServiceId; className?: string; children: ReactNode }) {
+export function ServiceCta({
+  service,
+  locale,
+  className = "",
+  children,
+}: {
+  service: ServiceId;
+  locale: Locale;
+  className?: string;
+  children: ReactNode;
+}) {
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     // Let the browser handle new-tab and new-window clicks.
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
@@ -27,7 +38,7 @@ export function ServiceCta({ service, className = "", children }: { service: Ser
   }
 
   return (
-    <ArrowLink href={contactHrefForService(service)} className={className} onClick={handleClick}>
+    <ArrowLink href={contactHrefForService(service, locale)} className={className} onClick={handleClick}>
       {children}
     </ArrowLink>
   );

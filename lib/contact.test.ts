@@ -3,7 +3,8 @@ import { contactHrefForService, interpretReply, serviceFromParam } from "@/lib/c
 
 describe("service preselect", () => {
   it("links a service card to the form with that service", () => {
-    expect(contactHrefForService("decor")).toBe("/?service=decor#contact");
+    expect(contactHrefForService("decor", "en")).toBe("/?service=decor#contact");
+    expect(contactHrefForService("decor", "es")).toBe("/es?service=decor#contact");
   });
 
   it("accepts only known service ids", () => {
