@@ -34,6 +34,15 @@ export type SeasonalContent = {
   page: { title: LocalizedText; description: LocalizedText };
   /** Link from the home band to /season. */
   seeMore: LocalizedText;
+  /** Preview pages (/season/<id>, preview sites only). {start} and {end} are filled in with the dates. */
+  preview: {
+    label: LocalizedText;
+    dates: LocalizedText;
+    notActive: LocalizedText;
+    active: LocalizedText;
+    listHeading: LocalizedText;
+    listNote: LocalizedText;
+  };
   /** Shown whenever no season is active (and before the browser has worked out today's date). Required. */
   evergreen: SeasonCopy;
   seasons: Season[];
@@ -46,6 +55,14 @@ export const seasonal: SeasonalContent = {
     description: { en: placeholder("/season page description") },
   },
   seeMore: { en: "See this season" },
+  preview: {
+    label: { en: "Season preview" },
+    dates: { en: "Runs {start} to {end}." },
+    notActive: { en: "Preview of a season that isn't active today." },
+    active: { en: "This is the season showing on the site today." },
+    listHeading: { en: "Preview every season" },
+    listNote: { en: "Shown on preview sites only, never on the live site." },
+  },
   evergreen: {
     headline: { en: placeholder("evergreen headline") },
     body: { en: placeholder("evergreen body") },

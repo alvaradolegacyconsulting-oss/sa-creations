@@ -9,5 +9,10 @@ export function t(text: LocalizedText, locale: Locale): string {
   return text.es?.trim() ? text.es : `${TRANSLATE}] ${text.en}`;
 }
 
+/** Fills "{name}" slots in a template; an unknown slot is left as is so it shows up in review (from Sampayo). */
+export function fill(template: string, values: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (slot, key: string) => values[key] ?? slot);
+}
+
 /** BCP 47 tag for Intl formatting and og:locale. */
 export const localeTag: Record<Locale, string> = { en: "en-US", es: "es-US" };

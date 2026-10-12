@@ -11,7 +11,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-121 pieces of text; 120 still without Spanish (marked —).
+127 pieces of text; 126 still without Spanish (marked —).
 
 ## Site-wide (titles, header, footer)
 
@@ -132,6 +132,12 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `seasonal.evergreenEyebrow` | For every occasion | — |
 | `seasonal.page.description` | [PLACEHOLDER: /season page description] | — |
 | `seasonal.seeMore` | See this season | — |
+| `seasonal.preview.label` | Season preview | — |
+| `seasonal.preview.dates` | Runs {start} to {end}. | — |
+| `seasonal.preview.notActive` | Preview of a season that isn't active today. | — |
+| `seasonal.preview.active` | This is the season showing on the site today. | — |
+| `seasonal.preview.listHeading` | Preview every season | — |
+| `seasonal.preview.listNote` | Shown on preview sites only, never on the live site. | — |
 | `seasonal.evergreen.headline` | [PLACEHOLDER: evergreen headline] | — |
 | `seasonal.evergreen.body` | [PLACEHOLDER: evergreen body] | — |
 | `seasonal.evergreen.cta.label` | [PLACEHOLDER: evergreen call to action] | — |

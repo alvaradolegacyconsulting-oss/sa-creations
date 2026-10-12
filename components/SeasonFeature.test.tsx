@@ -3,7 +3,7 @@ import { act, render, screen } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SeasonFeature } from "@/components/SeasonFeature";
-import type { Season, SeasonalContent } from "@/content/seasonal";
+import { seasonal, type Season, type SeasonalContent } from "@/content/seasonal";
 
 const season = (id: string, start: string, end: string, headline: string): Season => ({
   id,
@@ -21,6 +21,7 @@ const content: SeasonalContent = {
   evergreenEyebrow: { en: "For every occasion" },
   page: { title: { en: "This season" }, description: { en: "d" } },
   seeMore: { en: "See this season" },
+  preview: seasonal.preview,
   evergreen: { headline: { en: "Evergreen headline" }, body: { en: "Evergreen body" }, occasions: [], photo: { kind: "none" }, cta: { label: { en: "Contact us" } } },
   seasons: [season("christmas-2026", "2026-11-27", "2026-12-24", "Give a gift they'll remember.")],
 };
