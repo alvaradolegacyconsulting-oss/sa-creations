@@ -3,7 +3,7 @@
 import { contact } from "./contact";
 import { gallery } from "./gallery";
 import { hero } from "./hero";
-import { headerNav, navLabels } from "./navigation";
+import { headerNav, navLabels, notFound } from "./navigation";
 import { openQuestions } from "./pending";
 import { redirects } from "./redirects";
 import { services, servicesSection } from "./services";
@@ -22,6 +22,7 @@ export const content = {
   contact,
   headerNav,
   navLabels,
+  notFound,
   redirects,
   openQuestions,
 };

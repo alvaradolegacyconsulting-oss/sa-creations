@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { buttonClasses } from "@/components/ButtonLink";
+import { LangSwitch } from "@/components/LangSwitch";
 import { Logo } from "@/components/Logo";
 import { MobileMenu, type MenuLink } from "@/components/MobileMenu";
 import { navLabels, type NavLink } from "@/content/navigation";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
-import { routes } from "@/lib/routes";
+import { builtLocales, routes, type RouteKey } from "@/lib/routes";
 import { navHref, sectionHref } from "@/lib/sections";
 
 /** `links` is already filtered to sections that render (see components/PageShell.tsx). */
-export function SiteHeader({ links, locale }: { links: NavLink[]; locale: Locale }) {
+export function SiteHeader({ links, locale, route }: { links: NavLink[]; locale: Locale; route: RouteKey }) {
   const menuLinks: MenuLink[] = links.map((link) => ({ label: t(link.label, locale), href: navHref(link, locale) }));
   const cta: MenuLink = { label: t(site.headerCta, locale), href: sectionHref("contact", locale) };
 
@@ -21,7 +22,7 @@ export function SiteHeader({ links, locale }: { links: NavLink[]; locale: Locale
           <Logo />
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           <nav aria-label={t(navLabels.mainNav, locale)} className="hidden md:block">
             <ul className="flex items-center gap-6">
               {menuLinks.map((link) => (
@@ -39,6 +40,8 @@ export function SiteHeader({ links, locale }: { links: NavLink[]; locale: Locale
               {cta.label}
             </a>
           </div>
+          {/* Shown at every width, so phones can switch without opening the menu. */}
+          {builtLocales.length > 1 && <LangSwitch route={route} locale={locale} />}
           <MobileMenu links={menuLinks} cta={cta} label={t(navLabels.menu, locale)} navLabel={t(navLabels.mainNav, locale)} />
         </div>
       </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import type { SiteContent } from "@/content/site";
-import { defaultLocale } from "@/content/types";
-import { routes } from "@/lib/routes";
+import { site as siteContent, type SiteContent } from "@/content/site";
+import { defaultLocale, type Locale, type LocalizedText } from "@/content/types";
+import { localeTag, t } from "@/lib/i18n";
+import { routes, type RouteKey } from "@/lib/routes";
 
 /** Pages listed in the sitemap. */
 export const sitemapPaths: string[] = [routes.home[defaultLocale]];
@@ -25,15 +26,32 @@ export function absoluteUrl(origin: string, path: string): string {
   return new URL(path, `${origin}/`).toString();
 }
 
+/** Each page's title (none for home: it uses the business name and tagline) and description. */
+const pageText: Record<RouteKey, { title?: LocalizedText; description?: LocalizedText }> = {
+  home: {},
+};
+
+/** Base metadata for a root layout; each page adds its own with pageMetadata(). */
+export function rootMetadata(locale: Locale, site: SiteContent = siteContent): Metadata {
+  return {
+    metadataBase: new URL(siteOrigin(site)),
+    title: { default: `${site.businessName} | ${t(site.tagline, locale)}`, template: `%s | ${site.businessName}` },
+    description: t(site.description, locale),
+  };
+}
+
+const ogLocale = (locale: Locale) => localeTag[locale].replace("-", "_");
+
 /**
- * Full metadata for one page. Next.js replaces (not merges) a parent's openGraph and twitter
- * objects, so every page sets all of them here. Omit `title` for the home page.
+ * Full metadata for one page in one language. Next.js replaces (not merges) a parent's openGraph and
+ * twitter objects, so every page sets all of them here.
  */
-export function pageMetadata(
-  site: SiteContent,
-  { path, title, description = site.description.en }: { path: string; title?: string; description?: string },
-): Metadata {
-  const fullTitle = title ? `${title} | ${site.businessName}` : `${site.businessName} | ${site.tagline.en}`;
+export function pageMetadata(route: RouteKey, locale: Locale, site: SiteContent = siteContent): Metadata {
+  const text = pageText[route];
+  const title = text.title && t(text.title, locale);
+  const description = t(text.description ?? site.description, locale);
+  const fullTitle = title ? `${title} | ${site.businessName}` : `${site.businessName} | ${t(site.tagline, locale)}`;
+  const path = routes[route][locale];
   const image = { ...ogImage, alt: site.businessName };
 
   return {
@@ -46,7 +64,7 @@ export function pageMetadata(
       url: path,
       siteName: site.businessName,
       type: "website",
-      locale: "en_US",
+      locale: ogLocale(locale),
       images: [image],
     },
     twitter: {

@@ -54,11 +54,11 @@ describe("SEO (Organization JSON-LD)", () => {
   });
 
   it("gives the home page its canonical, share image and site name", () => {
-    const home = pageMetadata(testSite, { path: "/" });
+    const home = pageMetadata("home", "en", testSite);
 
     expect(home.alternates?.canonical).toBe("/");
     expect(home.title).toEqual({ absolute: "S&A Creations | Events, decor, apparel and gifts" });
-    expect(home.openGraph).toMatchObject({ siteName: testSite.businessName, images: [{ url: "/opengraph-image" }] });
+    expect(home.openGraph).toMatchObject({ siteName: testSite.businessName, locale: "en_US", images: [{ url: "/opengraph-image" }] });
     expect(home.twitter).toMatchObject({ card: "summary_large_image", images: [{ url: "/opengraph-image" }] });
   });
 

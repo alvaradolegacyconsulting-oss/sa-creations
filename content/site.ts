@@ -1,6 +1,11 @@
-import { placeholder, type LocalizedText } from "./types";
+import { placeholder, type Locale, type LocalizedText } from "./types";
 
 export type SiteContent = {
+  /**
+   * The languages the site is built in. English is always served at "/"; adding "es" builds the
+   * Spanish site at "/es", shows the EN | ES switch and makes production require every Spanish string.
+   */
+  languages: Locale[];
   /** Production origin, no trailing slash. Previews use their own Vercel URL (lib/seo.ts). */
   url: string;
   businessName: string;
@@ -25,6 +30,7 @@ export type SiteContent = {
 };
 
 export const site: SiteContent = {
+  languages: ["en"],
   url: placeholder("production domain, e.g. https://sacreations.com"),
   businessName: "S&A Creations",
   legalName: "Alvarado Legacy Consulting, LLC",

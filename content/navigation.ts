@@ -36,4 +36,14 @@ export const navLabels = {
   instagram: { en: "Instagram" },
   facebook: { en: "Facebook" },
   contact: { en: "Contact" },
+  languageSwitch: { en: "Language" },
+  /** The switch's link to the other language, read in the language it links to (so both are set now). */
+  switchTo: { en: "Read this page in English", es: "Ver esta página en español" },
+} satisfies Record<string, LocalizedText>;
+
+/** The 404 page, shown for any address that isn't a page (app/global-not-found.tsx). */
+export const notFound = {
+  title: { en: "Page not found" },
+  body: { en: "That page doesn't exist. It may have moved, or the address may have a typo." },
+  home: { en: "Go to the home page" },
 } satisfies Record<string, LocalizedText>;

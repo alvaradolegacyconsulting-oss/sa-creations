@@ -13,7 +13,7 @@ import { hasGallery } from "@/lib/gallery";
 /** The one-page site in one language. Each language's page.tsx renders this. */
 export function HomePage({ locale }: { locale: Locale }) {
   return (
-    <PageShell locale={locale}>
+    <PageShell locale={locale} route="home">
       <OrganizationJsonLd />
       <HeroSection locale={locale} showWorkLink={hasGallery(gallery)} />
       <ValuesStrip locale={locale} />
