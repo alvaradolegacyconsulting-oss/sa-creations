@@ -41,15 +41,19 @@ export const site: SiteContent = {
   businessName: "S&A Creations",
   legalName: "Alvarado Legacy Consulting, LLC",
   wordmark: { top: "S&A", bottom: "Creations" },
-  tagline: { en: "Events, decor, apparel and gifts" },
+  tagline: { en: "Events, decor, apparel and gifts", es: "Eventos, decoración, ropa y regalos" },
   description: {
     en: "From dreamy weddings and quinceañeras to custom apparel and one-of-a-kind gifts, we craft the moments and memories that last a lifetime.",
+    es: "Desde bodas y quinceañeras de ensueño hasta ropa personalizada y regalos únicos, creamos momentos y recuerdos que duran toda la vida.",
   },
-  headerCta: { en: "Free consultation" },
+  headerCta: { en: "Free consultation", es: "Consulta gratis" },
   email: placeholder("inquiry email"),
   // Open question: phone to publish. Undefined publishes none (content/pending.ts).
   phone: undefined,
   // Open question: Instagram and Facebook URLs (content/pending.ts).
   social: { instagram: undefined, facebook: undefined },
-  footerNote: { en: "S&A Creations is a DBA of Alvarado Legacy Consulting, LLC." },
+  footerNote: {
+    en: "S&A Creations is a DBA of Alvarado Legacy Consulting, LLC.",
+    es: "S&A Creations es el nombre comercial (DBA) de Alvarado Legacy Consulting, LLC.",
+  },
 };
