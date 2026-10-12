@@ -29,3 +29,7 @@ export function isDateKey(date: string): boolean {
   const parsed = new Date(`${date}T00:00:00.000Z`);
   return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === date;
 }
+/** Whole days from one calendar date to another (no time zone involved: both are dates). */
+export function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
+}

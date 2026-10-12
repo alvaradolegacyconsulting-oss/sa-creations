@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Season, SeasonalContent } from "@/content/seasonal";
 import { seasonal } from "@/content/seasonal";
-import { currentSeason, findSeasonProblems, seasonToShow } from "@/lib/seasons";
+import { currentSeason, findSeasonProblems, seasonsEndingSoon, seasonToShow } from "@/lib/seasons";
 import { centralDateKey } from "@/lib/time";
 
 const season = (id: string, start: string, end: string): Season => ({
@@ -123,5 +123,25 @@ describe("SEASONS_VALID (fails every build)", () => {
 
   it("passes the real content", () => {
     expect(findSeasonProblems(seasonal.seasons)).toEqual([]);
+  });
+});
+
+describe("SEASONS_ENDING_SOON (never fails)", () => {
+  it("says nothing while the last season ends more than 60 days out", () => {
+    expect(seasonsEndingSoon(seasons, "2027-07-15")).toBeNull(); // 61 days before Sep 14
+  });
+
+  it("warns from 60 days before the last season ends", () => {
+    expect(seasonsEndingSoon(seasons, "2027-07-16")).toBe("The last season ends on 2027-09-14 (60 days from 2027-07-16): add next year's seasons.");
+    expect(seasonsEndingSoon(seasons, "2027-09-14")).toBe("The last season ends on 2027-09-14 (0 days from 2027-09-14): add next year's seasons.");
+  });
+
+  it("warns once the last season has ended, and when there are no seasons", () => {
+    expect(seasonsEndingSoon(seasons, "2027-09-15")).toBe("The last season ended on 2027-09-14: the evergreen copy shows until new seasons are added.");
+    expect(seasonsEndingSoon([], "2027-01-01")).toBe("content/seasonal.ts has no seasons: the evergreen copy shows all year.");
+  });
+
+  it("uses the last end date whatever order the seasons are written in", () => {
+    expect(seasonsEndingSoon([summer, valentines], "2027-08-01")).toContain("2027-09-14");
   });
 });

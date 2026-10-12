@@ -2,7 +2,8 @@ import { content } from "../content";
 import { seasonal } from "../content/seasonal";
 import { site } from "../content/site";
 import { findStockPhotos, runGates } from "../lib/gates";
-import { findSeasonProblems } from "../lib/seasons";
+import { findSeasonProblems, seasonsEndingSoon } from "../lib/seasons";
+import { centralDateKey } from "../lib/time";
 
 // Broken data fails every build, previews included: a season with an impossible date or an overlap
 // would show the wrong copy, and there's no question left for anyone to answer.
@@ -32,4 +33,8 @@ if (force || process.env.VERCEL_ENV === "production") {
   const stock = findStockPhotos(content);
   console.log(stock.length === 0 ? "STOCK_IN_USE: none" : `STOCK_IN_USE (not blocking): ${stock.length} stock photo(s):`);
   for (const photo of stock) console.log(`- ${photo}`);
+
+  // Not a gate: the evergreen copy covers any gap, but the seasons need topping up once a year.
+  const ending = seasonsEndingSoon(seasonal.seasons, centralDateKey());
+  console.log(ending ? `SEASONS_ENDING_SOON (not blocking): ${ending} See docs/UPDATING.md.` : "SEASONS_ENDING_SOON: none");
 }

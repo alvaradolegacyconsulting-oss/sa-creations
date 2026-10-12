@@ -1,6 +1,6 @@
 // Relative imports only: the gate scripts load this under tsx.
 import type { Season, SeasonCopy, SeasonalContent } from "../content/seasonal";
-import { isDateKey } from "./time";
+import { daysBetween, isDateKey } from "./time";
 
 /** A season id: a lowercase slug. The contact route accepts only ids of this shape. */
 export const SEASON_ID = /^[a-z0-9-]{1,64}$/;
@@ -43,4 +43,18 @@ export function findSeasonProblems(seasons: readonly Season[]): string[] {
     if (next.start <= previous.end) problems.push(`${previous.id} (to ${previous.end}) overlaps ${next.id} (from ${next.start})`);
   }
   return problems;
+}
+
+/**
+ * SEASONS_ENDING_SOON (never fails): a warning when the last season ends within `days` of `today`, or
+ * has already ended, so next year's seasons get added before the band falls back to evergreen for good.
+ */
+export function seasonsEndingSoon(seasons: readonly Season[], today: string, days = 60): string | null {
+  const ends = seasons.map((season) => season.end).filter(isDateKey).toSorted();
+  if (ends.length === 0) return "content/seasonal.ts has no seasons: the evergreen copy shows all year.";
+  const last = ends[ends.length - 1];
+  const left = daysBetween(today, last);
+  if (left < 0) return `The last season ended on ${last}: the evergreen copy shows until new seasons are added.`;
+  if (left <= days) return `The last season ends on ${last} (${left} days from ${today}): add next year's seasons.`;
+  return null;
 }
