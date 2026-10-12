@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "gates": "tsx scripts/check-production-gates.ts --all"
+    "gates": "tsx scripts/check-production-gates.ts --all",
+    "review": "tsx scripts/review.ts"
   },
   "dependencies": {
     "next": "16.3.6",
