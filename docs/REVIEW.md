@@ -11,7 +11,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-129 pieces of text; 128 still without Spanish (marked —).
+174 pieces of text; 173 still without Spanish (marked —).
 
 ## Site-wide (titles, header, footer)
 
@@ -91,8 +91,8 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `services[0].title` (also `contact.serviceOptions[0].label`) | Event planning | — |
 | `services[0].description` | Full-service planning for your most important milestones. We handle every detail so you can be fully present. | — |
 | `services[0].items[0]` | Weddings | — |
-| `services[0].items[1]` | Quinceañeras | — |
-| `services[0].items[2]` | Baby showers | — |
+| `services[0].items[1]` (also `seasonal.seasons[4].occasions[2]`) | Quinceañeras | — |
+| `services[0].items[2]` (also `seasonal.seasons[4].occasions[1]`) | Baby showers | — |
 | `services[0].items[3]` | Birthdays | — |
 | `services[0].items[4]` | Special occasions | — |
 | `services[0].cta` | Plan your event | — |
@@ -100,7 +100,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `services[0].photo.label` (also `services[1].photo.label`, `services[3].photo.label`) | Real photo | — |
 | `services[1].title` (also `contact.serviceOptions[1].label`) | Custom decor | — |
 | `services[1].description` | Personalized decor that turns any venue into an unforgettable experience. | — |
-| `services[1].items[0]` (also `gallery.tagLabels.centerpieces`) | Centerpieces | — |
+| `services[1].items[0]` (also `seasonal.seasons[1].occasions[2]`, `gallery.tagLabels.centerpieces`) | Centerpieces | — |
 | `services[1].items[1]` | Backdrops | — |
 | `services[1].items[2]` | Balloon arches | — |
 | `services[1].items[3]` | Floral arrangements | — |
@@ -117,7 +117,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `services[2].cta` | Order apparel | — |
 | `services[3].title` (also `contact.serviceOptions[3].label`) | Custom gifts | — |
 | `services[3].description` | Thoughtful, handcrafted gifts made with care for every person and occasion. | — |
-| `services[3].items[0]` | Gift baskets | — |
+| `services[3].items[0]` (also `seasonal.seasons[2].occasions[0]`) | Gift baskets | — |
 | `services[3].items[1]` | Custom frames | — |
 | `services[3].items[2]` | Mugs and tumblers | — |
 | `services[3].items[3]` | Keychains | — |
@@ -130,7 +130,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | Where | English | Español |
 |---|---|---|
 | `seasonal.evergreenEyebrow` | For every occasion | — |
-| `seasonal.page.description` | [PLACEHOLDER: /season page description] | — |
+| `seasonal.page.description` | Seasonal baskets, gifts and celebrations from S&A Creations, made by hand and made to order. | — |
 | `seasonal.seeMore` | See this season | — |
 | `seasonal.preview.label` | Season preview | — |
 | `seasonal.preview.dates` | Runs {start} to {end}. | — |
@@ -138,9 +138,54 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `seasonal.preview.active` | This is the season showing on the site today. | — |
 | `seasonal.preview.listHeading` | Preview every season | — |
 | `seasonal.preview.listNote` | Shown on preview sites only, never on the live site. | — |
-| `seasonal.evergreen.headline` | [PLACEHOLDER: evergreen headline] | — |
-| `seasonal.evergreen.body` | [PLACEHOLDER: evergreen body] | — |
-| `seasonal.evergreen.cta.label` | [PLACEHOLDER: evergreen call to action] | — |
+| `seasonal.evergreen.headline` | Custom baskets, gifts and events for any occasion. | — |
+| `seasonal.evergreen.body` | Whatever you're celebrating, we'll design it around you. Tell us about your occasion and we'll be in touch. | — |
+| `seasonal.evergreen.cta.label` | Contact us | — |
+| `seasonal.seasons[0].name` | Fall & Halloween | — |
+| `seasonal.seasons[0].headline` | Fall is here. Let's make it sweet. | — |
+| `seasonal.seasons[0].body` | Cozy fall baskets, Halloween treats and party setups, made by hand and made to order. Tell us who it's for and we'll take it from there. | — |
+| `seasonal.seasons[0].occasions[0]` | Fall baskets | — |
+| `seasonal.seasons[0].occasions[1]` | Halloween treats | — |
+| `seasonal.seasons[0].occasions[2]` | Fall parties | — |
+| `seasonal.seasons[0].cta.label` | Order a fall basket | — |
+| `seasonal.seasons[1].name` | Thanksgiving | — |
+| `seasonal.seasons[1].headline` | Bring something special to the table. | — |
+| `seasonal.seasons[1].body` | Hostess gifts, thank-you baskets and centerpieces for your family gathering. Order early so we can make it just right. | — |
+| `seasonal.seasons[1].occasions[0]` | Hostess gifts | — |
+| `seasonal.seasons[1].occasions[1]` | Thank-you baskets | — |
+| `seasonal.seasons[1].cta.label` | Plan your Thanksgiving gift | — |
+| `seasonal.seasons[2].name` | Christmas & holidays | — |
+| `seasonal.seasons[2].headline` | Give a gift they'll remember. | — |
+| `seasonal.seasons[2].body` | Custom holiday baskets for family, friends, teachers and clients, plus decor for your holiday party. Spots fill up fast in December. | — |
+| `seasonal.seasons[2].occasions[1]` | Office & client gifts | — |
+| `seasonal.seasons[2].occasions[2]` | Holiday parties | — |
+| `seasonal.seasons[2].cta.label` | Order holiday gifts | — |
+| `seasonal.seasons[3].name` | New Year & Valentine's | — |
+| `seasonal.seasons[3].headline` | Start the year with something sweet. | — |
+| `seasonal.seasons[3].body` | Ring in the new year with a celebration, then show someone you love them with a Valentine's basket made just for them. | — |
+| `seasonal.seasons[3].occasions[0]` | New Year events | — |
+| `seasonal.seasons[3].occasions[1]` | Valentine's baskets | — |
+| `seasonal.seasons[3].occasions[2]` | Date-night setups | — |
+| `seasonal.seasons[3].cta.label` | Plan something sweet | — |
+| `seasonal.seasons[4].name` | Spring & Mother's Day | — |
+| `seasonal.seasons[4].headline` | For the moms who do it all. | — |
+| `seasonal.seasons[4].body` | Mother's Day baskets, baby showers and spring celebrations, designed around the person you're celebrating. | — |
+| `seasonal.seasons[4].occasions[0]` | Mother's Day baskets | — |
+| `seasonal.seasons[4].cta.label` | Celebrate Mom | — |
+| `seasonal.seasons[5].name` | Graduation & end of school | — |
+| `seasonal.seasons[5].headline` | They did it. Celebrate in style. | — |
+| `seasonal.seasons[5].body` | Graduation baskets, teacher thank-you gifts and party decor for the big day. | — |
+| `seasonal.seasons[5].occasions[0]` | Grad baskets | — |
+| `seasonal.seasons[5].occasions[1]` | Teacher gifts | — |
+| `seasonal.seasons[5].occasions[2]` | Graduation parties | — |
+| `seasonal.seasons[5].cta.label` | Plan the celebration | — |
+| `seasonal.seasons[6].name` | Summer & back to school | — |
+| `seasonal.seasons[6].headline` | Make summer a celebration. | — |
+| `seasonal.seasons[6].body` | Summer parties, birthday setups and back-to-school gifts to start the year right. | — |
+| `seasonal.seasons[6].occasions[0]` | Summer events | — |
+| `seasonal.seasons[6].occasions[1]` | Birthday setups | — |
+| `seasonal.seasons[6].occasions[2]` | Back-to-school gifts | — |
+| `seasonal.seasons[6].cta.label` | Plan your summer event | — |
 
 ## Gallery
 
