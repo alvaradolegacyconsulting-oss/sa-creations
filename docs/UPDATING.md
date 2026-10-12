@@ -40,6 +40,10 @@ Never type a fact nobody has confirmed (prices, phone numbers, emails, what's in
 know, leave the `[PLACEHOLDER: ...]` in place. Production won't deploy while one is left, which is
 deliberate. `npm run gates` lists everything still open.
 
+The site is in **English and Spanish**. Every piece of text is written as `{ en: "...", es: "..." }`:
+when you change one language, change the other too (or ask S&A for it). After any text change, run
+`npm run review` so `docs/REVIEW.md` matches; `npm test` fails until you do.
+
 ---
 
 ## Add photos to the gallery
@@ -59,7 +63,10 @@ names or house numbers unless the customer has said yes; crop them out or leave 
      {
        tag: "balloon-arch",
        src: "/images/quince-gold-balloon-arch.jpg",
-       alt: { en: "Gold and white balloon arch over a quinceañera head table" },
+       alt: {
+         en: "Gold and white balloon arch over a quinceañera head table",
+         es: "Arco de globos dorados y blancos sobre la mesa principal de una quinceañera",
+       },
      },
    ],
    ```
@@ -67,7 +74,8 @@ names or house numbers unless the customer has said yes; crop them out or leave 
    - `tag` is one of: `"wedding"`, `"quinceanera"`, `"baby-shower"`, `"proposal"`, `"balloon-arch"`,
      `"centerpieces"`, `"event-shirts"`, `"business-merch"`, `"gift-basket"`, `"personalized-sign"`. It sets the caption
      on the photo.
-   - `alt` describes what's in the photo for people who can't see it. One plain sentence.
+   - `alt` describes what's in the photo for people who can't see it. One plain sentence, in both
+     languages.
 
 The gallery, its "Gallery" menu link and the hero's "See our work" button appear as soon as there's
 one photo, and disappear again if the list is emptied.
@@ -83,7 +91,8 @@ Each photo looks like this until a real one is supplied:
 photo: {
   src: null,
   alt: { en: "[PLACEHOLDER: describe the custom decor photo]" },
-  label: { en: "Real photo" },
+  kind: "real",
+  label: { en: "Real photo", es: "Foto real" },
 },
 ```
 
@@ -94,12 +103,17 @@ photo: {
    ```ts
    photo: {
      src: "/images/service-decor.jpg",
-     alt: { en: "Blush and gold centerpieces on a reception table" },
-     label: { en: "Real photo" },
+     alt: {
+       en: "Blush and gold centerpieces on a reception table",
+       es: "Centros de mesa rosa palo y dorado en una mesa de recepción",
+     },
+     kind: "real",
+     label: { en: "Real photo", es: "Foto real" },
    },
    ```
 
-   Leave `label` as it is; it's only shown while `src` is `null`.
+   Leave `kind` and `label` as they are (`label` is only shown while `src` is `null`). These photos
+   are always S&A's own work (`kind: "real"`).
 
 To replace a photo later, overwrite the file with the same name, or point `src` at the new file and
 delete the old one.
@@ -135,14 +149,117 @@ Then delete the matching line from `content/pending.ts`.
 
 ## Change text
 
-Every visible sentence lives in `content/` as `{ en: "..." }`. Find the words with VS Code's search
-(Cmd+Shift+F), change what's between the quotes, and keep the quotes and the comma after them.
+Every visible sentence lives in `content/` as `{ en: "...", es: "..." }`. Find the words with VS
+Code's search (Cmd+Shift+F), change what's between the quotes, and keep the quotes and the comma after
+them. Change the Spanish too, then run `npm run review`.
 
-- Service lists: `content/services.ts`, `items` (one `{ en: "..." },` per line).
+- Service lists: `content/services.ts`, `items` (one `{ en: "...", es: "..." },` per line).
 - Form labels and messages: `content/contact.ts`.
 - Story and verse: `content/story.ts`.
+- This Season: `content/seasonal.ts` (below).
 
 If the text contains a straight double quote (`"`), use a curly one (`“ ”`) instead.
+
+## Apply Sayra's corrections, then sign off the Spanish
+
+`docs/REVIEW.md` lists every piece of text in English and Spanish, with where it lives (the first
+column, e.g. `services[2].items[3]` means `content/services.ts`, the third service card's fourth item;
+counting starts at 0).
+
+1. For each correction S&A sends back, find the English words with Cmd+Shift+F in `content/` and
+   change the `es` (or `en`) text next to them. One commit per batch of corrections is fine:
+   `content: Spanish corrections from Sayra`.
+2. Run `npm run review` and commit the regenerated `docs/REVIEW.md` with it.
+3. **Once S&A has approved all of it**, in `content/site.ts` change
+
+   ```ts
+   translationsReviewed: false,
+   ```
+
+   to `true`, and commit: `content: Spanish signed off by Sayra`. That clears the
+   `TRANSLATIONS_REVIEWED` gate; production can then deploy (once the other gates pass too).
+
+If a new piece of text is added later, it needs Spanish before production deploys
+(`TRANSLATIONS_COMPLETE` lists any that are missing). To take the Spanish site down entirely, set
+`languages: ["en"]` in `content/site.ts`: `/es` then disappears, along with the EN | ES switch.
+
+## This Season
+
+File: `content/seasonal.ts`. The home page band and `/season` show the season running **today in
+Houston time**; on days with no season (Dec 25, for example) they show the `evergreen` copy.
+
+### Change a season's words
+
+Each season looks like this. Change the `en` and `es` text; keep everything else.
+
+```ts
+{
+  id: "christmas-2026",
+  start: "2026-11-27",
+  end: "2026-12-24",
+  name: { en: "Christmas & holidays", es: "Navidad y fiestas" },
+  headline: { en: "Give a gift they'll remember.", es: "Da un regalo que nunca olviden." },
+  body: { en: "...", es: "..." },
+  occasions: [{ en: "Gift baskets", es: "Canastas de regalo" }],
+  photo: { kind: "none" },
+  cta: { label: { en: "Order holiday gifts", es: "Pide tus regalos navideños" }, service: "gifts" },
+},
+```
+
+- `start` and `end` are the first and last day, written `YYYY-MM-DD`. Both days count. The season
+  switches on and off at **midnight Central time**.
+- `service` is the box the contact form checks when someone taps the button: `"events"`, `"decor"`,
+  `"apparel"` or `"gifts"`. Leave it out to check none.
+- Never add a price, discount or deadline nobody has confirmed.
+
+### Add next year's seasons
+
+When `npm run gates` prints **SEASONS_ENDING_SOON**, the last season ends within 60 days.
+
+1. Copy this year's season blocks and paste them after the last one.
+2. In each copy, change the year in `id` (`christmas-2026` → `christmas-2027`), `start` and `end`.
+   Check the dates that move each year (Thanksgiving, Mother's Day, graduation).
+3. Seasons must not overlap: each `start` must be after the previous season's `end`. The build stops
+   and says which ones clash if they do.
+4. Old seasons can stay or be deleted; past ones never show.
+5. Run `npm run review`, commit (`content: 2027–28 seasons`), push, and check `/season` on the preview
+   (below).
+
+### Preview every season
+
+On a **preview** URL, `/season` lists every season with a link: `/season/christmas-2026`,
+`/es/temporada/christmas-2026` and so on. Each shows that season whatever today's date is, under a
+banner with its dates. These pages don't exist on the live site.
+
+### Add a season photo
+
+Seasons may use **licensed stock photos** (nowhere else on the site). Only use a photo you have a
+license for: keep the receipt or license page. Never a photo copied from social media, another
+business's listing or a search result, and never one generated by AI.
+
+1. Save it as `public/images/seasonal/<season id>.jpg`, for example
+   `public/images/seasonal/christmas-2026.jpg`, at least 1200 px on the long side.
+2. In that season, replace `photo: { kind: "none" }` with:
+
+   ```ts
+   photo: {
+     src: "/images/seasonal/christmas-2026.jpg",
+     alt: {
+       en: "Red and green woven gift baskets with holiday treats and plush toys",
+       es: "Canastas tejidas rojas y verdes con dulces navideños y peluches",
+     },
+     kind: "stock",
+     sourceUrl: "https://www.example-stock-site.com/photo/123456",
+     label: { en: "Stock photo", es: "Foto de stock" },
+   },
+   ```
+
+   - `alt` says what's in the picture. Never "our basket" or "made by S&A": it isn't S&A's work, and
+     a test fails if it says so.
+   - `sourceUrl` is the photo's page on the stock site, so anyone can check the license later.
+
+3. `npm run gates` lists every stock photo under **STOCK_IN_USE**. Replace them with S&A's own photos
+   when there are some (`kind: "real"`, no `sourceUrl`).
 
 ## Set the domain (once, at launch)
 
