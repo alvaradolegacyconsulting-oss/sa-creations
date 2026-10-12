@@ -6,14 +6,18 @@ import { contact } from "@/content/contact";
 import type { ServiceId } from "@/content/services";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
+import { seasonal, type Season } from "@/content/seasonal";
 import {
+  PRESELECT_EVENT,
+  SEASON_PARAM,
   SERVICE_PARAM,
-  SERVICE_PRESELECT_EVENT,
   contactLimits,
   interpretReply,
   payloadFromForm,
+  seasonFromParam,
   serviceFromParam,
-  withoutServiceParam,
+  withoutPreselectParams,
+  type ContactPreselect,
 } from "@/lib/contact";
 import { isValidEmail } from "@/lib/email-rule";
 import { t } from "@/lib/i18n";
@@ -34,30 +38,39 @@ const inputClasses =
  * "Sending...") · sent (only after /api/contact confirms { ok: true }) · failed (the inquiry email
  * as a link; every field stays filled so nothing is lost).
  */
-export function ContactForm({ locale }: { locale: Locale }) {
+export function ContactForm({ locale, seasons = seasonal.seasons }: { locale: Locale; seasons?: Season[] }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [invalid, setInvalid] = useState<string[]>([]);
   const [services, setServices] = useState<ServiceId[]>([]);
+  /** The season a visitor came from (This Season's button); shown as a chip and sent with the form. */
+  const [season, setSeason] = useState<Season | null>(null);
 
-  // Links from outside the page arrive as /?service=<id>#contact: check that box once, then drop the
-  // parameter so a reload doesn't re-check it. Read in the browser, since the page is built statically.
+  // Links from other pages arrive as /?service=<id>&season=<id>#contact: apply them once, then drop the
+  // parameters so a reload doesn't re-apply them. Read in the browser, since the page is built statically.
   useEffect(() => {
-    const preselected = serviceFromParam(new URLSearchParams(window.location.search).get(SERVICE_PARAM));
-    if (!preselected) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from the URL after mount
-    setServices(withService(preselected));
-    window.history.replaceState(window.history.state, "", withoutServiceParam(window.location.href));
-  }, []);
+    const query = new URLSearchParams(window.location.search);
+    const service = serviceFromParam(query.get(SERVICE_PARAM));
+    const fromSeason = seasonFromParam(query.get(SEASON_PARAM), seasons);
+    if (!query.has(SERVICE_PARAM) && !query.has(SEASON_PARAM)) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time sync from the URL after mount */
+    if (service) setServices(withService(service));
+    if (fromSeason) setSeason(fromSeason);
+    /* eslint-enable react-hooks/set-state-in-effect */
+    window.history.replaceState(window.history.state, "", withoutPreselectParams(window.location.href));
+  }, [seasons]);
 
-  // Service CTAs on this page fire an event instead of reloading, so anything typed is kept.
+  // Contact links on this page fire an event instead of reloading, so anything typed is kept.
   useEffect(() => {
     const onPreselect = (event: Event) => {
-      const id = serviceFromParam((event as CustomEvent<unknown>).detail as string);
-      if (id) setServices(withService(id));
+      const detail = ((event as CustomEvent<unknown>).detail ?? {}) as ContactPreselect;
+      const service = serviceFromParam(detail.service);
+      const fromSeason = seasonFromParam(detail.season, seasons);
+      if (service) setServices(withService(service));
+      if (fromSeason) setSeason(fromSeason);
     };
-    window.addEventListener(SERVICE_PRESELECT_EVENT, onPreselect);
-    return () => window.removeEventListener(SERVICE_PRESELECT_EVENT, onPreselect);
-  }, []);
+    window.addEventListener(PRESELECT_EVENT, onPreselect);
+    return () => window.removeEventListener(PRESELECT_EVENT, onPreselect);
+  }, [seasons]);
 
   function toggleService(id: ServiceId, checked: boolean) {
     setServices((current) => (checked ? [...current, id] : current.filter((value) => value !== id)));
@@ -97,6 +110,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       if (outcome.kind === "sent") {
         form.reset();
         setServices([]);
+        setSeason(null);
       }
     } catch {
       setStatus("failed");
@@ -120,6 +134,24 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
   return (
     <form className="space-y-5 rounded-lg border border-line bg-ivory p-5 text-ink sm:p-7" onSubmit={handleSubmit} noValidate>
+      {season && (
+        <div className="flex w-fit max-w-full items-center gap-1 rounded-full border border-copper/50 bg-white py-1 pl-4 pr-1 text-sm">
+          <input type="hidden" name="season" value={season.id} />
+          <span>
+            {t(labels.askingAbout, locale)}: <strong className="font-semibold text-navy">{t(season.name, locale)}</strong>
+          </span>
+          <button
+            type="button"
+            onClick={() => setSeason(null)}
+            aria-label={`${t(labels.remove, locale)} ${t(season.name, locale)}`}
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-ink/75 hover:bg-sand hover:text-navy"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t(labels.name, locale)} name="name" autoComplete="name" required maxLength={contactLimits.name} {...fieldProps("name")} />
         <Field

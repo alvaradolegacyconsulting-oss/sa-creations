@@ -4,6 +4,7 @@ import type { ServiceId } from "@/content/services";
 import { locales } from "@/content/types";
 import { contactLimits } from "@/lib/contact";
 import { emailPattern } from "@/lib/email-rule";
+import { SEASON_ID } from "@/lib/seasons";
 
 const serviceIds = contact.serviceOptions.map((option) => option.id) as [ServiceId, ...ServiceId[]];
 
@@ -14,9 +15,6 @@ const singleLine = (max: number) =>
     .trim()
     .max(max)
     .refine((value) => !/[\u0000-\u001f\u007f]/.test(value), "must be a single line");
-
-/** A season id is a slug; anything else is dropped rather than rejected (the visitor can't fix it). */
-const SEASON_ID = /^[a-z0-9-]{1,64}$/;
 
 /** Server-side validation for /api/contact (from alc-site). Mirrors the form's required fields. */
 export const contactSchema = z.object({

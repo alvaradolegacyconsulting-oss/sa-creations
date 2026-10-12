@@ -7,6 +7,11 @@ vi.mock("resend", () => ({
   }),
 }));
 
+vi.mock("@/content/seasonal", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/content/seasonal")>();
+  return { seasonal: { ...actual.seasonal, seasons: [{ id: "christmas-2026", name: { en: "Christmas & holidays", es: "Navidad y fiestas" } }] } };
+});
+
 const { POST } = await import("@/app/api/contact/route");
 
 const API_KEY = "re_test_secret_key_123";
@@ -86,9 +91,19 @@ describe("POST /api/contact", () => {
     await post({ ...valid, locale: "es", season: "christmas-2026" });
 
     const email = send.mock.calls[0][0];
-    expect(email.subject).toBe("Website inquiry: Maria Lopez (Spanish)");
+    expect(email.subject).toBe("Website inquiry: Maria Lopez (Spanish, Christmas & holidays)");
     expect(email.text).toContain("Language: Spanish");
-    expect(email.text).toContain("Season: christmas-2026");
+    expect(email.text).toContain("Season: Christmas & holidays (christmas-2026)");
+  });
+
+  it("drops a season that isn't in content (an old link) and sends anyway, logging it", async () => {
+    send.mockResolvedValue({ data: { id: "email_old" }, error: null });
+
+    const response = await post({ ...valid, season: "christmas-1999" });
+
+    expect(await response.json()).toEqual({ ok: true });
+    expect(send.mock.calls[0][0].text).not.toContain("Season:");
+    expect(logs.join("\n")).toContain("season id dropped");
   });
 
   it.each([

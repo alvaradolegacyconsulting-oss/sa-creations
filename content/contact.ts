@@ -21,6 +21,10 @@ export type ContactContent = {
     details: LocalizedText;
     /** Label on the hidden spam-trap field; only bots ever fill it in. */
     honeypot: LocalizedText;
+    /** The chip naming the season a visitor came from: "Asking about: Christmas & holidays". */
+    askingAbout: LocalizedText;
+    /** The chip's remove button, read with the season name: "Remove Christmas & holidays". */
+    remove: LocalizedText;
   };
   serviceOptions: ContactServiceOption[];
   submit: LocalizedText;
@@ -48,6 +52,8 @@ export const contact: ContactContent = {
     services: { en: "What can we help with?" },
     details: { en: "Tell us about it" },
     honeypot: { en: "Leave this field empty" },
+    askingAbout: { en: "Asking about" },
+    remove: { en: "Remove" },
   },
   serviceOptions: [
     { id: "events", label: { en: "Event planning" } },

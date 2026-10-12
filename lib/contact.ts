@@ -2,6 +2,7 @@ import { contact } from "@/content/contact";
 import type { Locale } from "@/content/types";
 import { routes } from "@/lib/routes";
 import { sectionIds } from "@/content/navigation";
+import { seasonal, type Season } from "@/content/seasonal";
 import type { ServiceId } from "@/content/services";
 
 /** Field limits, shared by the form (maxLength) and the server schema so they can't drift (from alc-site). */
@@ -14,30 +15,47 @@ export const contactLimits = {
   bodyBytes: 32 * 1024,
 } as const;
 
-/** Query parameter a service CTA sets to preselect that service's checkbox in the form. */
+/** Query parameters a contact link sets: check a service's box, and name the season it came from. */
 export const SERVICE_PARAM = "service";
+export const SEASON_PARAM = "season";
 
-/** Link from a service card to the contact form, on this language's home page, with that service checked. */
-export function contactHrefForService(id: ServiceId, locale: Locale): string {
-  return `${routes.home[locale]}?${SERVICE_PARAM}=${id}#${sectionIds.contact}`;
+/** What a contact link asks the form to show: a service to check and/or a season chip. */
+export type ContactPreselect = { service?: ServiceId; season?: string };
+
+/**
+ * Link to the contact form on this language's home page, with a service checked and/or a season named
+ * (from a1wrecker). With neither it's a plain link to the form.
+ */
+export function contactHref({ service, season }: ContactPreselect, locale: Locale): string {
+  const params = new URLSearchParams();
+  if (service) params.set(SERVICE_PARAM, service);
+  if (season) params.set(SEASON_PARAM, season);
+  const query = params.toString();
+  return `${routes.home[locale]}${query ? `?${query}` : ""}#${sectionIds.contact}`;
 }
 
 /** The service for a ?service= value, or null for anything unknown. */
-export function serviceFromParam(value: string | null): ServiceId | null {
+export function serviceFromParam(value: unknown): ServiceId | null {
   return contact.serviceOptions.find((option) => option.id === value)?.id ?? null;
 }
 
-/** Window event a service CTA fires on the home page; ContactForm checks that service in state. */
-export const SERVICE_PRESELECT_EVENT = "contact:preselect-service";
-
-export function requestServicePreselect(id: ServiceId): void {
-  window.dispatchEvent(new CustomEvent<ServiceId>(SERVICE_PRESELECT_EVENT, { detail: id }));
+/** The season for a ?season= value, or null for anything not in content/seasonal.ts. */
+export function seasonFromParam(value: unknown, seasons: readonly Season[] = seasonal.seasons): Season | null {
+  return seasons.find((season) => season.id === value) ?? null;
 }
 
-/** The URL with ?service= removed (hash kept), so it only preselects on the first load. */
-export function withoutServiceParam(href: string): string {
+/** Window event a contact link fires on the home page; ContactForm applies it in state, without a reload. */
+export const PRESELECT_EVENT = "contact:preselect";
+
+export function requestPreselect(detail: ContactPreselect): void {
+  window.dispatchEvent(new CustomEvent<ContactPreselect>(PRESELECT_EVENT, { detail }));
+}
+
+/** The URL with ?service= and ?season= removed (hash kept), so they only apply on the first load. */
+export function withoutPreselectParams(href: string): string {
   const url = new URL(href);
   url.searchParams.delete(SERVICE_PARAM);
+  url.searchParams.delete(SEASON_PARAM);
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
@@ -87,6 +105,7 @@ export function payloadFromForm(form: HTMLFormElement, locale: Locale): ContactP
       .filter((id): id is ServiceId => id !== null),
     details: text("details"),
     locale,
+    ...(text("season") ? { season: text("season") } : {}),
     website: text("website"),
   };
 }

@@ -1,4 +1,4 @@
-import { contactFields, contactLimits, type ContactResponse } from "@/lib/contact";
+import { contactFields, contactLimits, seasonFromParam, type ContactResponse } from "@/lib/contact";
 import { contactSchema } from "@/lib/contact-schema";
 import { sendContactEmail } from "@/lib/email";
 
@@ -61,7 +61,14 @@ export async function POST(request: Request) {
     return fields.length > 0 ? reply({ ok: false, reason: "invalid", fields }, 400) : reply({ ok: false, reason: "send-failed" }, 400);
   }
 
-  const result = await sendContactEmail(parsed.data);
+  // A season id that isn't in content/seasonal.ts (an old link, a typo) is dropped, never an error.
+  const submission = parsed.data;
+  if (submission.season && !seasonFromParam(submission.season)) {
+    console.warn("contact: season id dropped (not in content/seasonal.ts)");
+    submission.season = undefined;
+  }
+
+  const result = await sendContactEmail(submission);
   if (!result.ok) {
     console.error(`contact: NOT sent, ${result.reason}: ${result.detail}`);
     return reply({ ok: false, reason: "send-failed" }, result.reason === "missing-env" ? 500 : 502);

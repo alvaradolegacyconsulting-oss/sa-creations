@@ -1,10 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { contactHrefForService, interpretReply, serviceFromParam } from "@/lib/contact";
+import type { Season } from "@/content/seasonal";
+import { contactHref, interpretReply, seasonFromParam, serviceFromParam, withoutPreselectParams } from "@/lib/contact";
 
 describe("service preselect", () => {
   it("links a service card to the form with that service", () => {
-    expect(contactHrefForService("decor", "en")).toBe("/?service=decor#contact");
-    expect(contactHrefForService("decor", "es")).toBe("/es?service=decor#contact");
+    expect(contactHref({ service: "decor" }, "en")).toBe("/?service=decor#contact");
+    expect(contactHref({ service: "decor" }, "es")).toBe("/es?service=decor#contact");
+  });
+
+  it("names the season too, or links plainly to the form with neither", () => {
+    expect(contactHref({ service: "gifts", season: "christmas-2026" }, "en")).toBe("/?service=gifts&season=christmas-2026#contact");
+    expect(contactHref({ season: "christmas-2026" }, "es")).toBe("/es?season=christmas-2026#contact");
+    expect(contactHref({}, "en")).toBe("/#contact");
+  });
+
+  it("accepts only seasons in content", () => {
+    const seasons = [{ id: "christmas-2026" }] as Season[];
+    expect(seasonFromParam("christmas-2026", seasons)?.id).toBe("christmas-2026");
+    expect(seasonFromParam("christmas-1999", seasons)).toBeNull();
+    expect(seasonFromParam(null, seasons)).toBeNull();
+  });
+
+  it("drops both parameters after reading them, keeping anything else and the hash", () => {
+    expect(withoutPreselectParams("https://x.test/es?service=gifts&season=fall-2026&utm=a#contact")).toBe("/es?utm=a#contact");
   });
 
   it("accepts only known service ids", () => {

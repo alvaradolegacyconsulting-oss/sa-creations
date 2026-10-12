@@ -1,6 +1,6 @@
 import { PhotoFrame } from "@/components/PhotoFrame";
 import { Section } from "@/components/Section";
-import { ServiceCta } from "@/components/ServiceCta";
+import { ContactCta } from "@/components/ContactCta";
 import { sectionIds } from "@/content/navigation";
 import { services, servicesSection } from "@/content/services";
 import { photoOrNone, type Locale } from "@/content/types";
@@ -32,9 +32,9 @@ export function ServicesSection({ locale }: { locale: Locale }) {
                     </li>
                   ))}
                 </ul>
-                <ServiceCta service={service.id} locale={locale} className="mt-3">
+                <ContactCta preselect={{ service: service.id }} locale={locale} className="mt-3">
                   {t(service.cta, locale)}
-                </ServiceCta>
+                </ContactCta>
               </div>
             </li>
           );

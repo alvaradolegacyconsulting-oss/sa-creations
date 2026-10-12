@@ -4,8 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ContactForm } from "@/components/ContactForm";
 import { ContactSection } from "@/components/ContactSection";
+import { SeasonFeature } from "@/components/SeasonFeature";
 import { ServicesSection } from "@/components/ServicesSection";
 import { contact } from "@/content/contact";
+import { seasonal, type Season } from "@/content/seasonal";
 import { site } from "@/content/site";
 import { contactLimits } from "@/lib/contact";
 
@@ -191,5 +193,84 @@ describe("service CTAs on the home page", () => {
     await user.click(screen.getByRole("link", { name: /Create a gift/ }));
     expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(true);
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("season chip", () => {
+  const christmas: Season = {
+    id: "christmas-2026",
+    start: "2026-11-27",
+    end: "2026-12-24",
+    name: { en: "Christmas & holidays" },
+    headline: { en: "Give a gift they'll remember." },
+    body: { en: "Custom holiday baskets." },
+    occasions: [],
+    photo: { kind: "none" },
+    cta: { label: { en: "Order holiday gifts" }, service: "gifts" },
+  };
+  const seasons = [christmas];
+
+  it("arrives from /season as ?season= (and ?service=): shows the chip, checks the service, drops both from the URL", () => {
+    window.history.replaceState(null, "", "/?service=gifts&season=christmas-2026#contact");
+    render(<ContactForm locale="en" seasons={seasons} />);
+    expect(screen.getByText("Christmas & holidays").parentElement?.textContent).toBe("Asking about: Christmas & holidays");
+    expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(true);
+    expect(window.location.search).toBe("");
+    expect(window.location.hash).toBe("#contact");
+  });
+
+  it("ignores a season that isn't in content (an old link)", () => {
+    window.history.replaceState(null, "", "/?season=christmas-1999#contact");
+    render(<ContactForm locale="en" seasons={seasons} />);
+    expect(screen.queryByText(/Asking about/)).toBeNull();
+    expect(window.location.search).toBe("");
+  });
+
+  it("sends the season id with the form, and not once the chip is removed", async () => {
+    const fetchMock = vi.fn(() => Promise.resolve(new Response('{"ok":true}', { status: 200 })));
+    vi.stubGlobal("fetch", fetchMock);
+    window.history.replaceState(null, "", "/?season=christmas-2026#contact");
+    const user = userEvent.setup();
+    const { unmount } = render(<ContactForm locale="en" seasons={seasons} />);
+    await fillRequired(user);
+    await user.click(submit());
+    await screen.findByRole("status");
+    const body = (call: number) => JSON.parse((fetchMock.mock.calls[call] as unknown as [string, RequestInit])[1].body as string);
+    expect(body(0).season).toBe("christmas-2026");
+    expect(screen.queryByText(/Asking about/)).toBeNull(); // cleared with the rest after a confirmed send
+    unmount();
+
+    window.history.replaceState(null, "", "/?season=christmas-2026#contact");
+    render(<ContactForm locale="en" seasons={seasons} />);
+    await user.click(screen.getByRole("button", { name: "Remove Christmas & holidays" }));
+    expect(screen.queryByText(/Asking about/)).toBeNull();
+    await fillRequired(user);
+    await user.click(submit());
+    await screen.findByRole("status");
+    expect("season" in body(1)).toBe(false);
+  });
+
+  it("This Season's button on the home page names the season and checks its service without a reload", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-12-10T18:00:00Z"));
+    const user = userEvent.setup();
+    render(
+      <>
+        <SeasonFeature locale="en" layout="band" content={{ ...seasonal, seasons }} />
+        <ContactForm locale="en" seasons={seasons} />
+        <section id="contact" />
+      </>,
+    );
+    await fillRequired(user);
+
+    const cta = screen.getByRole("link", { name: "Order holiday gifts" });
+    expect(cta.getAttribute("href")).toBe("/?service=gifts&season=christmas-2026#contact");
+    await user.click(cta);
+
+    expect(screen.getByText(/Asking about/).textContent).toBe("Asking about: Christmas & holidays");
+    expect((screen.getByLabelText("Custom gifts") as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText("Name") as HTMLInputElement).value).toBe("Maria Lopez");
+    expect(window.location.search).toBe("");
+    vi.useRealTimers();
   });
 });

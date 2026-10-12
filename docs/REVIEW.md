@@ -11,7 +11,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-127 pieces of text; 126 still without Spanish (marked —).
+129 pieces of text; 128 still without Spanish (marked —).
 
 ## Site-wide (titles, header, footer)
 
@@ -186,6 +186,8 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `contact.labels.services` | What can we help with? | — |
 | `contact.labels.details` | Tell us about it | — |
 | `contact.labels.honeypot` | Leave this field empty | — |
+| `contact.labels.askingAbout` | Asking about | — |
+| `contact.labels.remove` | Remove | — |
 | `contact.submit` | Request my free consultation | — |
 | `contact.pending` | Sending... | — |
 | `contact.success` | Thank you! Your request was sent. We'll reach out to set up your free consultation. | — |

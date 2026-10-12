@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { contact } from "@/content/contact";
+import { seasonFromParam } from "@/lib/contact";
 import type { ContactSubmission } from "@/lib/contact-schema";
 
 export type SendResult = { ok: true; id: string } | { ok: false; reason: "missing-env" | "resend-error" | "network-error"; detail: string };
@@ -14,9 +15,13 @@ function oneLine(value: string): string {
   return value.replace(/[\u0000-\u001f\u007f]+/g, " ").replace(/\s+/g, " ").trim();
 }
 
-export function contactSubject(submission: Pick<ContactSubmission, "name" | "locale">): string {
-  const language = submission.locale === "en" ? "" : ` (${languageNames[submission.locale]})`;
-  return oneLine(`Website inquiry: ${oneLine(submission.name)}${language}`);
+/** The season's English name for S&A, or null. */
+const seasonName = (id: string | undefined) => (id ? (seasonFromParam(id)?.name.en ?? null) : null);
+
+/** "Website inquiry: {name}", plus the language when it isn't English and the season when there is one. */
+export function contactSubject(submission: { name: string; locale: ContactSubmission["locale"]; season?: string }): string {
+  const extras = [submission.locale === "en" ? null : languageNames[submission.locale], seasonName(submission.season)].filter(Boolean);
+  return oneLine(`Website inquiry: ${oneLine(submission.name)}${extras.length > 0 ? ` (${extras.join(", ")})` : ""}`);
 }
 
 /** Plain-text body listing every field, labeled as on the (English) form. */
@@ -31,7 +36,7 @@ export function contactBody(submission: ContactSubmission): string {
     `${labels.date.en}: ${submission.date || "(not given)"}`,
     `${labels.services.en} ${serviceLabels.length > 0 ? serviceLabels.join(", ") : "(none selected)"}`,
     `Language: ${languageNames[submission.locale]}`,
-    ...(submission.season ? [`Season: ${submission.season}`] : []),
+    ...(seasonName(submission.season) ? [`Season: ${seasonName(submission.season)} (${submission.season})`] : []),
     "",
     `${labels.details.en}:`,
     submission.details,

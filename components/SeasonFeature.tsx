@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLink, ButtonLink } from "@/components/ButtonLink";
+import { ArrowLink } from "@/components/ButtonLink";
+import { ContactCta } from "@/components/ContactCta";
 import { PhotoFrame } from "@/components/PhotoFrame";
 import { Container, Eyebrow } from "@/components/Section";
 import { sectionIds } from "@/content/navigation";
@@ -9,7 +10,6 @@ import { photoOrNone, type Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
 import { seasonToShow } from "@/lib/seasons";
-import { sectionHref } from "@/lib/sections";
 import { useCentralDateKey } from "@/lib/useCentralDateKey";
 
 export type SeasonLayout = "band" | "page";
@@ -64,7 +64,10 @@ export function SeasonFeature({
             </ul>
           )}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-            <ButtonLink href={sectionHref("contact", locale)}>{t(copy.cta.label, locale)}</ButtonLink>
+            {/* A season's button names it on the form; the evergreen one is a plain link to the form. */}
+            <ContactCta preselect={{ service: copy.cta.service, season: season?.id }} locale={locale} look="button">
+              {t(copy.cta.label, locale)}
+            </ContactCta>
             {!page && <ArrowLink href={routes.season[locale]}>{t(content.seeMore, locale)}</ArrowLink>}
           </div>
         </div>

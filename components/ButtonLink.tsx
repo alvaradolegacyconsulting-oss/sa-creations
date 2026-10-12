@@ -15,17 +15,24 @@ export function ButtonLink({
   href,
   variant = "primary",
   className = "",
+  onClick,
   children,
 }: {
   href: string;
   variant?: ButtonVariant;
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   children: ReactNode;
 }) {
   const external = href.startsWith("http");
 
   return (
-    <a href={href} className={`${buttonClasses(variant)} ${className}`} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+    <a
+      href={href}
+      onClick={onClick}
+      className={`${buttonClasses(variant)} ${className}`}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+    >
       {children}
     </a>
   );
