@@ -3,7 +3,7 @@ import { Section } from "@/components/Section";
 import { ServiceCta } from "@/components/ServiceCta";
 import { sectionIds } from "@/content/navigation";
 import { services, servicesSection } from "@/content/services";
-import type { Locale } from "@/content/types";
+import { photoOrNone, type Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
 import { serviceAnchor } from "@/lib/sections";
 
@@ -12,7 +12,7 @@ export function ServicesSection({ locale }: { locale: Locale }) {
     <Section id={sectionIds.services} intro={servicesSection} locale={locale} tone="white" centered>
       <ul className="grid gap-5 lg:grid-cols-2">
         {services.map((service) => {
-          const photo = "kind" in service.photo ? null : service.photo;
+          const photo = photoOrNone(service.photo);
           return (
             <li
               key={service.id}

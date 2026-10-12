@@ -8,6 +8,7 @@ import { defaultLocale, type Locale } from "../content/types";
  */
 export const routes = {
   home: { en: "/", es: "/es" },
+  season: { en: "/season", es: "/es/temporada" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type RouteKey = keyof typeof routes;

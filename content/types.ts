@@ -43,6 +43,11 @@ export type Photo = {
  */
 export type NoPhoto = { kind: "none" };
 
+/** The photo to show, or null for the no-photo marker. */
+export function photoOrNone(photo: Photo | NoPhoto): Photo | null {
+  return "src" in photo ? photo : null;
+}
+
 /** Marks a value Jose hasn't confirmed yet. The production build fails while any remain (lib/gates.ts). */
 export const PLACEHOLDER = "[PLACEHOLDER";
 

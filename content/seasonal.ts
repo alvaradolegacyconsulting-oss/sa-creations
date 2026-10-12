@@ -1,5 +1,5 @@
 import type { ServiceId } from "./services";
-import { placeholder, type LocalizedText, type NoPhoto, type Photo, type SectionIntro } from "./types";
+import { placeholder, type LocalizedText, type NoPhoto, type Photo } from "./types";
 
 /** What a season (or the evergreen fallback) shows: the home band and the /season page. */
 export type SeasonCopy = {
@@ -28,7 +28,8 @@ export type Season = SeasonCopy & {
 };
 
 export type SeasonalContent = {
-  intro: SectionIntro;
+  /** Small line above the evergreen headline. A season shows its own name there instead. */
+  evergreenEyebrow: LocalizedText;
   /** The /season page's title and description (search results and shares). */
   page: { title: LocalizedText; description: LocalizedText };
   /** Link from the home band to /season. */
@@ -39,10 +40,7 @@ export type SeasonalContent = {
 };
 
 export const seasonal: SeasonalContent = {
-  intro: {
-    eyebrow: { en: "This season" },
-    heading: { before: { en: placeholder("This Season band heading") } },
-  },
+  evergreenEyebrow: { en: "For every occasion" },
   page: {
     title: { en: "This season" },
     description: { en: placeholder("/season page description") },

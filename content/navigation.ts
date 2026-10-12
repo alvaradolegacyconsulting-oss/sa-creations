@@ -3,6 +3,7 @@ import type { LocalizedText } from "./types";
 
 /** Home-page section anchors. Components use these ids, so a link and its section can't drift apart. */
 export const sectionIds = {
+  season: "season",
   services: "services",
   gallery: "gallery",
   story: "story",
@@ -36,6 +37,7 @@ export const navLabels = {
   instagram: { en: "Instagram" },
   facebook: { en: "Facebook" },
   contact: { en: "Contact" },
+  season: { en: "This season" },
   languageSwitch: { en: "Language" },
   /** The switch's link to the other language, read in the language it links to (so both are set now). */
   switchTo: { en: "Read this page in English", es: "Ver esta página en español" },

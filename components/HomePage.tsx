@@ -3,6 +3,7 @@ import { GallerySection } from "@/components/GallerySection";
 import { HeroSection } from "@/components/HeroSection";
 import { OrganizationJsonLd } from "@/components/OrganizationJsonLd";
 import { PageShell } from "@/components/PageShell";
+import { SeasonFeature } from "@/components/SeasonFeature";
 import { ServicesSection } from "@/components/ServicesSection";
 import { StorySection } from "@/components/StorySection";
 import { ValuesStrip } from "@/components/ValuesStrip";
@@ -17,6 +18,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <OrganizationJsonLd locale={locale} />
       <HeroSection locale={locale} showWorkLink={hasGallery(gallery)} />
       <ValuesStrip locale={locale} />
+      <SeasonFeature locale={locale} layout="band" />
       <ServicesSection locale={locale} />
       <GallerySection locale={locale} />
       <StorySection locale={locale} />

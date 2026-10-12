@@ -33,6 +33,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 | `navLabels.instagram` | Instagram | — |
 | `navLabels.facebook` | Facebook | — |
 | `navLabels.contact` | Contact | — |
+| `navLabels.season` (also `seasonal.page.title`) | This season | — |
 | `navLabels.languageSwitch` | Language | — |
 | `navLabels.switchTo` | Read this page in English | Ver esta página en español |
 
@@ -128,8 +129,7 @@ The Spanish is drafted for you to approve: natural US Spanish, not word-for-word
 
 | Where | English | Español |
 |---|---|---|
-| `seasonal.intro.eyebrow` (also `seasonal.page.title`) | This season | — |
-| `seasonal.intro.heading.before` | [PLACEHOLDER: This Season band heading] | — |
+| `seasonal.evergreenEyebrow` | For every occasion | — |
 | `seasonal.page.description` | [PLACEHOLDER: /season page description] | — |
 | `seasonal.seeMore` | See this season | — |
 | `seasonal.evergreen.headline` | [PLACEHOLDER: evergreen headline] | — |

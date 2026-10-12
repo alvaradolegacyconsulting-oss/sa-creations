@@ -34,7 +34,7 @@ describe("route table", () => {
   it("builds Spanish only when content/site.ts languages lists it", () => {
     expect(hasAlternate(["en"])).toBe(false);
     expect(hasAlternate(["en", "es"])).toBe(true);
-    expect(pagePathsFor(["en"])).toEqual(["/"]);
-    expect(pagePathsFor(["en", "es"])).toEqual(["/", "/es"]);
+    expect(pagePathsFor(["en"])).toEqual(["/", "/season"]);
+    expect(pagePathsFor(["en", "es"])).toEqual(["/", "/es", "/season", "/es/temporada"]);
   });
 });

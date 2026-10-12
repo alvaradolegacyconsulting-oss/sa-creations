@@ -78,7 +78,7 @@ describe("SEO (Organization JSON-LD)", () => {
 describe("hreflang and sitemap", () => {
   it("has no hreflang while the site is built in English only", () => {
     expect(languageAlternates("home", ["en"])).toBeUndefined();
-    expect(sitemapEntries("https://example.com", ["en"])).toEqual([{ url: "https://example.com/" }]);
+    expect(sitemapEntries("https://example.com", ["en"])).toEqual([{ url: "https://example.com/" }, { url: "https://example.com/season" }]);
   });
 
   it("points each language at the other, with English as x-default, once Spanish is built", () => {
@@ -86,10 +86,13 @@ describe("hreflang and sitemap", () => {
   });
 
   it("lists every page in both languages, each with its translation", () => {
-    const languages = { en: "https://example.com/", es: "https://example.com/es" };
+    const home = { en: "https://example.com/", es: "https://example.com/es" };
+    const season = { en: "https://example.com/season", es: "https://example.com/es/temporada" };
     expect(sitemapEntries("https://example.com", ["en", "es"])).toEqual([
-      { url: "https://example.com/", alternates: { languages } },
-      { url: "https://example.com/es", alternates: { languages } },
+      { url: "https://example.com/", alternates: { languages: home } },
+      { url: "https://example.com/es", alternates: { languages: home } },
+      { url: "https://example.com/season", alternates: { languages: season } },
+      { url: "https://example.com/es/temporada", alternates: { languages: season } },
     ]);
   });
 

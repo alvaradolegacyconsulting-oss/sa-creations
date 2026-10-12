@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { seasonal } from "@/content/seasonal";
 import { site as siteContent, type SiteContent } from "@/content/site";
 import { defaultLocale, type Locale, type LocalizedText } from "@/content/types";
 import { localeTag, t } from "@/lib/i18n";
@@ -26,6 +27,7 @@ export function absoluteUrl(origin: string, path: string): string {
 /** Each page's title (none for home: it uses the business name and tagline) and description. */
 const pageText: Record<RouteKey, { title?: LocalizedText; description?: LocalizedText }> = {
   home: {},
+  season: seasonal.page,
 };
 
 /**

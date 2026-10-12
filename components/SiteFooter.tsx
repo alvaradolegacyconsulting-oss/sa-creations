@@ -16,6 +16,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const links = [
     site.social.instagram && { label: t(navLabels.instagram, locale), href: site.social.instagram, external: true },
     site.social.facebook && { label: t(navLabels.facebook, locale), href: site.social.facebook, external: true },
+    { label: t(navLabels.season, locale), href: routes.season[locale], external: false },
     { label: t(navLabels.contact, locale), href: sectionHref("contact", locale), external: false },
   ].filter((link) => link !== undefined && link !== "") as { label: string; href: string; external: boolean }[];
 
