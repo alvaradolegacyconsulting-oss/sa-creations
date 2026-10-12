@@ -14,7 +14,7 @@ import { hasGallery } from "@/lib/gallery";
 export function HomePage({ locale }: { locale: Locale }) {
   return (
     <PageShell locale={locale} route="home">
-      <OrganizationJsonLd />
+      <OrganizationJsonLd locale={locale} />
       <HeroSection locale={locale} showWorkLink={hasGallery(gallery)} />
       <ValuesStrip locale={locale} />
       <ServicesSection locale={locale} />

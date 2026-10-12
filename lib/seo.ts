@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import { site as siteContent, type SiteContent } from "@/content/site";
 import { defaultLocale, type Locale, type LocalizedText } from "@/content/types";
 import { localeTag, t } from "@/lib/i18n";
-import { routes, type RouteKey } from "@/lib/routes";
+import { builtLocales, routeKeys, routes, type RouteKey } from "@/lib/routes";
 
-/** Pages listed in the sitemap. */
-export const sitemapPaths: string[] = [routes.home[defaultLocale]];
-
-/** Served by app/opengraph-image.tsx. */
-const ogImage = { url: "/opengraph-image", width: 1200, height: 630, type: "image/png" };
+/** Share images, one per language, served by app/og/[locale]/route.tsx. */
+export const ogImagePath: Record<Locale, string> = { en: "/og/en", es: "/og/es" };
 
 type VercelEnv = Partial<Record<"VERCEL_ENV" | "VERCEL_BRANCH_URL" | "VERCEL_URL", string>> & Record<string, string | undefined>;
 
@@ -31,6 +28,30 @@ const pageText: Record<RouteKey, { title?: LocalizedText; description?: Localize
   home: {},
 };
 
+/**
+ * hreflang alternates for a page: each built language, with English for everyone else. Empty while the
+ * site is built in one language (there is nothing to point to).
+ */
+export function languageAlternates(route: RouteKey, languages: readonly Locale[] = builtLocales): Record<string, string> | undefined {
+  if (languages.length < 2) return undefined;
+  return { ...Object.fromEntries(languages.map((locale) => [locale, routes[route][locale]])), "x-default": routes[route][defaultLocale] };
+}
+
+/** Every page in every built language, each listing its translations, for app/sitemap.ts. */
+export function sitemapEntries(origin: string, languages: readonly Locale[] = builtLocales) {
+  return routeKeys.flatMap((route) =>
+    languages.map((locale) => {
+      const alternates = languageAlternates(route, languages);
+      return {
+        url: absoluteUrl(origin, routes[route][locale]),
+        ...(alternates
+          ? { alternates: { languages: Object.fromEntries(languages.map((code) => [code, absoluteUrl(origin, routes[route][code])])) } }
+          : {}),
+      };
+    }),
+  );
+}
+
 /** Base metadata for a root layout; each page adds its own with pageMetadata(). */
 export function rootMetadata(locale: Locale, site: SiteContent = siteContent): Metadata {
   return {
@@ -52,12 +73,14 @@ export function pageMetadata(route: RouteKey, locale: Locale, site: SiteContent 
   const description = t(text.description ?? site.description, locale);
   const fullTitle = title ? `${title} | ${site.businessName}` : `${site.businessName} | ${t(site.tagline, locale)}`;
   const path = routes[route][locale];
-  const image = { ...ogImage, alt: site.businessName };
+  const image = { url: ogImagePath[locale], width: 1200, height: 630, type: "image/png", alt: site.businessName };
+  const languages = languageAlternates(route);
+  const others = builtLocales.filter((code) => code !== locale);
 
   return {
     title: title ?? { absolute: fullTitle },
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, ...(languages ? { languages } : {}) },
     openGraph: {
       title: fullTitle,
       description,
@@ -65,6 +88,7 @@ export function pageMetadata(route: RouteKey, locale: Locale, site: SiteContent 
       siteName: site.businessName,
       type: "website",
       locale: ogLocale(locale),
+      ...(others.length > 0 ? { alternateLocale: others.map(ogLocale) } : {}),
       images: [image],
     },
     twitter: {
@@ -80,7 +104,11 @@ export function pageMetadata(route: RouteKey, locale: Locale, site: SiteContent 
  * schema.org Organization built only from content. S&A Creations is the trade name; legalName is
  * the LLC it's a DBA of. No address (none published); telephone, sameAs and logo only once set.
  */
-export function buildOrganizationJsonLd(site: SiteContent, origin: string, logoPath?: string) {
+export function buildOrganizationJsonLd(
+  site: SiteContent,
+  origin: string,
+  { locale = defaultLocale, languages = builtLocales, logoPath }: { locale?: Locale; languages?: readonly Locale[]; logoPath?: string } = {},
+) {
   const sameAs = [site.social.instagram, site.social.facebook].filter((link): link is string => Boolean(link));
 
   return {
@@ -88,8 +116,9 @@ export function buildOrganizationJsonLd(site: SiteContent, origin: string, logoP
     "@type": "Organization",
     name: site.businessName,
     legalName: site.legalName,
-    description: site.description.en,
-    url: absoluteUrl(origin, "/"),
+    description: t(site.description, locale),
+    url: absoluteUrl(origin, routes.home[locale]),
+    knowsLanguage: languages.map((code) => localeTag[code]),
     email: site.email,
     ...(logoPath ? { logo: absoluteUrl(origin, logoPath) } : {}),
     ...(site.phone ? { telephone: site.phone.tel } : {}),
