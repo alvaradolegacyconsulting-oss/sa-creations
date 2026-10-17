@@ -47,7 +47,8 @@ export async function renderOgImage(locale: Locale) {
         </div>
         <div style={{ marginTop: 16, fontSize: 68, fontWeight: 600, lineHeight: 1.08, display: "flex", flexWrap: "wrap" }}>
           {words.map(({ word, emphasis }, index) => (
-            <span key={index} style={{ marginRight: 18, ...(emphasis ? { fontStyle: "italic", color: theme.color.copper } : {}) }}>
+            // No gap before closing punctuation ("magical" + ".").
+            <span key={index} style={{ marginRight: /^[.,!?;:]/.test(words[index + 1]?.word ?? "") ? 0 : 18, ...(emphasis ? { fontStyle: "italic", color: theme.color.copper } : {}) }}>
               {word}
             </span>
           ))}
