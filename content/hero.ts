@@ -45,13 +45,13 @@ export const hero: HeroContent = {
       label: { en: "Real photo: gift basket", es: "Foto real: canasta de regalo" },
     },
     {
-      src: "/images/burgundy-ivory-floral-arrangement.jpg",
+      src: "/images/shieldmylot-team-apparel.jpg",
       alt: {
-        en: "Floral arrangement of burgundy and ivory roses, a white orchid and eucalyptus over gold sequin fabric",
-        es: "Arreglo floral de rosas color vino y marfil, una orquídea blanca y eucalipto sobre tela dorada de lentejuelas",
+        en: "Custom team apparel S&A made for ShieldMyLot: a gray polo with the ShieldMyLot logo printed on the chest, a navy jacket and a charcoal dress shirt with the logo embroidered",
+        es: "Ropa personalizada que S&A hizo para el equipo de ShieldMyLot: una playera polo gris con el logo de ShieldMyLot impreso en el pecho, una chamarra azul marino y una camisa de vestir gris oscuro con el logo bordado",
       },
       kind: "real",
-      label: { en: "Real photo: floral arrangement", es: "Foto real: arreglo floral" },
+      label: { en: "Real photo: custom apparel", es: "Foto real: ropa personalizada" },
     },
   ],
 };

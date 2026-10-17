@@ -13,7 +13,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-182 pieces of text; every one has Spanish.
+184 pieces of text; every one has Spanish.
 
 ## Site-wide (titles, header, footer)
 
@@ -63,8 +63,8 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `hero.photos[0].label` | Real photo: an event you decorated | Foto real: un evento que decoraste |
 | `hero.photos[1].alt` (also `gallery.photos[3].alt`) | Wedding gift basket with a lace-wrapped bottle of rosé, two glasses filled with chocolates and ivory flower trim | Canasta de regalo de boda con una botella de vino rosado envuelta en encaje, dos copas llenas de chocolates y adornos de flores color marfil |
 | `hero.photos[1].label` | Real photo: gift basket | Foto real: canasta de regalo |
-| `hero.photos[2].alt` (also `gallery.photos[9].alt`) | Floral arrangement of burgundy and ivory roses, a white orchid and eucalyptus over gold sequin fabric | Arreglo floral de rosas color vino y marfil, una orquídea blanca y eucalipto sobre tela dorada de lentejuelas |
-| `hero.photos[2].label` | Real photo: floral arrangement | Foto real: arreglo floral |
+| `hero.photos[2].alt` (also `services[2].photo.alt`) | Custom team apparel S&A made for ShieldMyLot: a gray polo with the ShieldMyLot logo printed on the chest, a navy jacket and a charcoal dress shirt with the logo embroidered | Ropa personalizada que S&A hizo para el equipo de ShieldMyLot: una playera polo gris con el logo de ShieldMyLot impreso en el pecho, una chamarra azul marino y una camisa de vestir gris oscuro con el logo bordado |
+| `hero.photos[2].label` | Real photo: custom apparel | Foto real: ropa personalizada |
 
 ## Values strip
 
@@ -98,8 +98,8 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `services[0].items[3]` | Birthdays | Cumpleaños |
 | `services[0].items[4]` | Special occasions | Ocasiones especiales |
 | `services[0].cta` | Plan your event | Planea tu evento |
-| `services[0].photo.alt` (also `gallery.photos[6].alt`) | Church aisle set for a wedding, with a white runner, scattered petals and flower garlands on every pew | Pasillo de iglesia preparado para una boda, con un camino blanco, pétalos esparcidos y guirnaldas de flores en cada banca |
-| `services[0].photo.label` (also `services[1].photo.label`, `services[3].photo.label`) | Real photo | Foto real |
+| `services[0].photo.alt` (also `gallery.photos[7].alt`) | Church aisle set for a wedding, with a white runner, scattered petals and flower garlands on every pew | Pasillo de iglesia preparado para una boda, con un camino blanco, pétalos esparcidos y guirnaldas de flores en cada banca |
+| `services[0].photo.label` (also `services[1].photo.label`, `services[2].photo.label`, `services[3].photo.label`) | Real photo | Foto real |
 | `services[1].title` (also `contact.serviceOptions[1].label`) | Custom decor | Decoración personalizada |
 | `services[1].description` | Personalized decor that turns any venue into an unforgettable experience. | Decoración personalizada que convierte cualquier lugar en una experiencia inolvidable. |
 | `services[1].items[0]` (also `seasonal.seasons[1].occasions[2]`, `gallery.tagLabels.centerpieces`) | Centerpieces | Centros de mesa |
@@ -125,7 +125,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `services[3].items[3]` | Keychains | Llaveros |
 | `services[3].items[4]` | Personalized signs | Letreros personalizados |
 | `services[3].cta` | Create a gift | Crea un regalo |
-| `services[3].photo.alt` (also `gallery.photos[5].alt`) | Three-tier diaper cake topped with a Winnie-the-Pooh plush, trimmed with yellow flowers, burlap and baby bottles | Pastel de pañales de tres pisos con un peluche de Winnie the Pooh arriba, adornado con flores amarillas, yute y biberones |
+| `services[3].photo.alt` (also `gallery.photos[6].alt`) | Three-tier diaper cake topped with a Winnie-the-Pooh plush, trimmed with yellow flowers, burlap and baby bottles | Pastel de pañales de tres pisos con un peluche de Winnie the Pooh arriba, adornado con flores amarillas, yute y biberones |
 
 ## This Season
 
@@ -212,9 +212,11 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `gallery.tagLabels.personalized-sign` | Personalized sign | Letrero personalizado |
 | `gallery.followCta` | Follow on Instagram | Síguenos en Instagram |
 | `gallery.photos[2].alt` | Outdoor proposal setup: a red carpet lined with candles leading to a MARRY ME marquee sign under red and gold drapes and a greenery garland | Decoración al aire libre para una propuesta de matrimonio: una alfombra roja bordeada de velas que lleva a un letrero iluminado de MARRY ME bajo cortinas rojas y doradas y una guirnalda de follaje |
-| `gallery.photos[4].alt` | Reception hall set for a quinceañera, with gold satin chair covers, white floral centerpieces and black and gold balloons | Salón de recepción preparado para una quinceañera, con fundas de silla de satín dorado, centros de mesa con flores blancas y globos negros y dorados |
-| `gallery.photos[7].alt` | Heart of tea-light candles on a red runner, with rose petals and a pillar candle on the grass | Corazón de velitas sobre un camino rojo, con pétalos de rosa y una vela de pilar sobre el pasto |
-| `gallery.photos[8].alt` | Pink diaper cake with a bunny plush and fabric bows, beside gift bags on a pink table | Pastel de pañales rosa con un peluche de conejito y moños de tela, junto a bolsas de regalo en una mesa rosa |
+| `gallery.photos[4].alt` | Gray polo on a hanger with the ShieldMyLot logo printed on the chest, part of the custom team apparel S&A made for ShieldMyLot | Playera polo gris en un gancho con el logo de ShieldMyLot impreso en el pecho, parte de la ropa personalizada que S&A hizo para el equipo de ShieldMyLot |
+| `gallery.photos[5].alt` | Reception hall set for a quinceañera, with gold satin chair covers, white floral centerpieces and black and gold balloons | Salón de recepción preparado para una quinceañera, con fundas de silla de satín dorado, centros de mesa con flores blancas y globos negros y dorados |
+| `gallery.photos[8].alt` | Heart of tea-light candles on a red runner, with rose petals and a pillar candle on the grass | Corazón de velitas sobre un camino rojo, con pétalos de rosa y una vela de pilar sobre el pasto |
+| `gallery.photos[9].alt` | Pink diaper cake with a bunny plush and fabric bows, beside gift bags on a pink table | Pastel de pañales rosa con un peluche de conejito y moños de tela, junto a bolsas de regalo en una mesa rosa |
+| `gallery.photos[10].alt` | Floral arrangement of burgundy and ivory roses, a white orchid and eucalyptus over gold sequin fabric | Arreglo floral de rosas color vino y marfil, una orquídea blanca y eucalipto sobre tela dorada de lentejuelas |
 
 ## Our story and verse
 

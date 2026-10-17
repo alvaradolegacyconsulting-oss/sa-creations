@@ -85,8 +85,15 @@ export const services: Service[] = [
       { en: "Hats and bags", es: "Gorras y bolsas" },
     ],
     cta: { en: "Order apparel", es: "Pide tu ropa" },
-    // No real apparel photo yet; the card renders without one on purpose.
-    photo: { kind: "none" },
+    photo: {
+      src: "/images/shieldmylot-team-apparel.jpg",
+      alt: {
+        en: "Custom team apparel S&A made for ShieldMyLot: a gray polo with the ShieldMyLot logo printed on the chest, a navy jacket and a charcoal dress shirt with the logo embroidered",
+        es: "Ropa personalizada que S&A hizo para el equipo de ShieldMyLot: una playera polo gris con el logo de ShieldMyLot impreso en el pecho, una chamarra azul marino y una camisa de vestir gris oscuro con el logo bordado",
+      },
+      kind: "real",
+      label: { en: "Real photo", es: "Foto real" },
+    },
   },
   {
     id: "gifts",

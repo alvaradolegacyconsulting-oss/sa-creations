@@ -81,6 +81,14 @@ export const gallery: GalleryContent = {
       },
     },
     {
+      tag: "business-merch",
+      src: "/images/shieldmylot-polo-hanger.jpg",
+      alt: {
+        en: "Gray polo on a hanger with the ShieldMyLot logo printed on the chest, part of the custom team apparel S&A made for ShieldMyLot",
+        es: "Playera polo gris en un gancho con el logo de ShieldMyLot impreso en el pecho, parte de la ropa personalizada que S&A hizo para el equipo de ShieldMyLot",
+      },
+    },
+    {
       tag: "quinceanera",
       src: "/images/quinceanera-reception-hall.jpg",
       alt: {

@@ -128,8 +128,7 @@ To replace a photo later, overwrite the file with the same name, or point `src` 
 delete the old one.
 
 A service with no real photo yet can go without one on purpose: set `photo: { kind: "none" }` and the
-card shows text only. (The custom apparel card is like this until S&A has a real apparel photo.) Use
-this rather than leaving `src: null`, which blocks production.
+card shows text only. Use this rather than leaving `src: null`, which blocks production.
 
 ## Set the inquiry email, phone or social links
 
