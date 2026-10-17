@@ -25,7 +25,12 @@ Project-specific instructions live in `docs/preflight/` — the most recent pref
   paid client work counts as commercial). Preview deployments are the staging environment;
   `main` is production.
 - Fonts via `next/font`. Images via `next/image`, stored in `public/images/`.
-- Email from forms via a transactional email API (Resend unless the preflight says otherwise).
+- Contact on client sites defaults to **no form**: tap-to-call (`tel:`), tap-to-text (`sms:`), and the email
+  address shown as visible text with a Copy button that confirms "Copied" (a `mailto:` link alone can fail
+  silently on desktops with no mail app). Forms are used on ALC-owned sites (Alvarado Legacy, S&A
+  Creations) or when a preflight explicitly asks for one.
+- Email from forms via a transactional email API (Resend unless the preflight says otherwise), on our own
+  domains only.
 - ESLint (`eslint-config-next`) with an `npm run lint` script; `BUILD_CLEAN` means build **and** lint pass.
 - `.gitignore` ignores `.env*` except `.env.example`, from the first commit.
 - Framework-specific agent notes (e.g. the block `next dev` writes) live in `AGENTS.md`, never in this file.
@@ -82,6 +87,19 @@ when the site launches English-only.
 - SEO basics: per-page metadata, Open Graph image, `sitemap.ts`, `robots.ts`, schema.org JSON-LD
   for the business.
 - No secrets in the repo. Every env var is listed with a comment in `.env.example`.
+
+## Security baseline (every site)
+
+- Security headers in `next.config`: CSP (self + only what the site loads; `frame-ancestors 'none'`),
+  `X-Frame-Options: DENY`, HSTS (no `includeSubDomains`/`preload` unless the preflight says so),
+  `nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (camera,
+  microphone, geolocation off), `poweredByHeader: false`.
+- Every `target="_blank"` link goes through one shared helper with `rel="noopener noreferrer"`; a test
+  fails on hand-written `_blank`.
+- Sites with a form: field max lengths defined once and shared by server and form, request bodies over
+  32 KB rejected (413), control characters stripped from anything in an email subject, honeypot, and a
+  Vercel Firewall rate-limit rule on the form's API route.
+- Logs never contain secrets or message bodies. Dependabot alerts on for every repo.
 
 ## Built for handover
 
