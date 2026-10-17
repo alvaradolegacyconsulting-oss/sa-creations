@@ -53,13 +53,15 @@ cp .env.example .env.local
 | Variable | What it is |
 |---|---|
 | `RESEND_API_KEY` | API key from resend.com. Server-only. |
-| `CONTACT_TO_EMAIL` | Inbox that receives inquiries. |
-| `CONTACT_FROM_EMAIL` | Sender. On previews, Resend's test sender `onboarding@resend.dev` (delivers only to the Resend account owner). In production, an address on the site's domain, verified in Resend. |
+| `CONTACT_TO_EMAIL` | Inbox that receives inquiries: `sayra@alvaradolegacyconsultingllc.com` for now (same as `email` in `content/site.ts`; change both when it moves). Comma-separate several. |
+| `CONTACT_FROM_EMAIL` | Sender: `S&A Creations <inquiries@sacustomcreations.com>`, on the domain verified in Resend. Same value on Preview and Production. Replies go to the visitor (Reply-To), not to this address. |
 
 Only `/api/contact` reads them. Without them the form shows its "couldn't send" message (with the
 inquiry email) and nothing is lost; the route logs which variable is missing. `.env.local` is git-ignored;
 never commit real values. On Vercel, set all three under **Project Settings → Environment Variables**
-for **Preview** and **Production**, then redeploy.
+for **Preview** and **Production**, then redeploy. Sending needs `sacustomcreations.com` verified in
+Resend first (steps in [docs/UPDATING.md](docs/UPDATING.md#contact-form-email)); until then Resend
+refuses the send and the form says so.
 
 ## Commands
 
@@ -149,7 +151,7 @@ and an "Asking about" chip; the inquiry email names the season.
 bot submissions (honeypot), refuses bodies over 32 KB, and sends one plain-text email through Resend
 with Reply-To set to the visitor. The subject is "Website inquiry: <name>", plus "(Spanish)" and the
 season name when they apply. The form shows "sent" only after Resend confirms; any failure keeps every
-field filled and shows the inquiry email. Logs record the outcome only, never the message.
+field filled and shows the inquiry email and phone number. Logs record the outcome only, never the message.
 
 ## Deploy
 

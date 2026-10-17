@@ -136,8 +136,7 @@ File: `content/site.ts`
 
 - **Email:** the address in quotes: `email: "hello@example.com",`. It appears in the contact section
   and in the form's error message. Changing it here does **not** change where form messages go: that's
-  `CONTACT_TO_EMAIL` in Vercel ([README, Environment variables](../README.md#environment-variables)).
-  When the inbox moves, change both.
+  `CONTACT_TO_EMAIL` in Vercel (see "Contact form email" below). When the inbox moves, change both.
 - **Phone:**
 
   ```ts
@@ -155,6 +154,38 @@ File: `content/site.ts`
 
   A link left `undefined` is simply not shown. The gallery's "Follow on Instagram" link appears once
   `instagram` is set. At launch S&A has no social accounts, so both are `undefined` on purpose.
+
+## Contact form email
+
+Where form messages go and who they come from is set in **Vercel**, not in `content/`: Project →
+Settings → Environment Variables, for both **Preview** and **Production**.
+
+| Variable | Value today |
+|---|---|
+| `RESEND_API_KEY` | The key from resend.com → API Keys |
+| `CONTACT_TO_EMAIL` | `sayra@alvaradolegacyconsultingllc.com` |
+| `CONTACT_FROM_EMAIL` | `S&A Creations <inquiries@sacustomcreations.com>` |
+
+Each inquiry arrives from `inquiries@sacustomcreations.com` with the visitor's address as Reply-To, so
+pressing Reply answers the visitor. Nobody needs to read the `inquiries@` mailbox.
+
+**Verifying the domain in Resend (once).** Resend only sends from a domain it has verified:
+
+1. resend.com → **Domains** → **Add Domain** → `sacustomcreations.com`.
+2. Resend lists a few DNS records (a DKIM `TXT`, and an `MX` and `TXT` for `send`). Add each one, exactly
+   as shown, where the domain's DNS is managed (Squarespace → Domains → sacustomcreations.com → DNS →
+   Custom records). They don't touch the website's own records, so they can go in before launch. If the
+   DNS ever moves (for example to Vercel), move these records with it.
+3. Back in Resend, press **Verify**. It can take a few minutes to a few hours. The domain must say
+   **Verified** before the form can send.
+4. In Vercel, set the three variables above and **redeploy** (variables apply to new deployments only).
+5. Send a test inquiry from the preview site. "Thank you! Your request was sent." should appear and the
+   email should reach the inbox. If the form says it couldn't send, Vercel → the deployment → Logs, search
+   `contact:`: the line says what failed (a missing variable, or Resend's error name), never the message.
+
+**Changing the inbox later** (for example to an address on sacustomcreations.com): set the new address in
+`CONTACT_TO_EMAIL` in Vercel and redeploy, and change `email` in `content/site.ts` so the site shows the
+same address.
 
 ## Change text
 

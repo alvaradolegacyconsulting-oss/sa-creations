@@ -43,7 +43,7 @@ beforeEach(() => {
   send.mockReset();
   vi.stubEnv("RESEND_API_KEY", API_KEY);
   vi.stubEnv("CONTACT_TO_EMAIL", "inbox@example.com");
-  vi.stubEnv("CONTACT_FROM_EMAIL", "Website <onboarding@resend.dev>");
+  vi.stubEnv("CONTACT_FROM_EMAIL", "S&A Creations <inquiries@sacustomcreations.com>");
   logs = [];
   for (const level of ["info", "warn", "error", "log"] as const) {
     vi.spyOn(console, level).mockImplementation((...args: unknown[]) => {
@@ -73,7 +73,7 @@ describe("POST /api/contact", () => {
     expect(send).toHaveBeenCalledTimes(1);
     const email = send.mock.calls[0][0];
     expect(email).toMatchObject({
-      from: "Website <onboarding@resend.dev>",
+      from: "S&A Creations <inquiries@sacustomcreations.com>",
       to: ["inbox@example.com"],
       replyTo: "maria@example.com",
       subject: "Website inquiry: Maria Lopez",
