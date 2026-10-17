@@ -70,6 +70,7 @@ for **Preview** and **Production**, then redeploy.
 | `npm run build` | Production build. Runs the production gates first (below). |
 | `npm run gates` | Prints each gate as PASS/FAIL with everything still open, plus the two warnings, on any machine |
 | `npm run review` | Regenerates `docs/REVIEW.md` (every text, English and Spanish) from `content/`. Run it after any text change; a test fails if it's out of date. |
+| `npm run images` | Prepares a photo or logo file for `public/images/` from an original kept outside the repo (resize, upright, metadata stripped, logo background cut). Every use is logged in `docs/PHOTOS.md`. |
 | `npm start` | Serve the output of `npm run build` locally |
 
 Before every push, `npm run lint`, `npm test` and `npm run build` should all pass (`BUILD_CLEAN`).
@@ -177,11 +178,12 @@ components/     Generic UI that reads from content/
 app/            (default)/ English pages, (alternate)/[alt]/ Spanish pages, api/contact, og/[locale]
                 share images, global-not-found.tsx, sitemap.ts, robots.ts
 lib/            Helpers: gates, SEO, contact form and email, seasons, routes, i18n, time zone, review, contrast
-scripts/        Build-time gates (check-production-gates.ts) and the review page (review.ts)
+scripts/        Build-time gates (check-production-gates.ts), the review page (review.ts) and image prep (prepare-images.ts)
 public/images/  Photos (and the logo once it arrives)
 docs/preflight/ Specs and approvals from the architect (latest is the source of truth)
 docs/concept/   The approved design concept (PDF)
 docs/UPDATING.md  Plain-English update steps
+docs/PHOTOS.md    The npm run images command behind every prepared photo and logo file
 docs/REVIEW.md    Every text in English and Spanish, for S&A to review (generated: npm run review)
 ```
 

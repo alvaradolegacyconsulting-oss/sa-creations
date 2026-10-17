@@ -53,9 +53,17 @@ File: `content/gallery.ts`. Photos: `public/images/` (the hero and service cards
 **Real photos of S&A's own work only**, never stock or AI-generated images. No customer faces,
 names or house numbers unless the customer has said yes; crop them out or leave the photo out.
 
-1. Save each photo as a `.jpg` with a short lowercase name, for example
-   `public/images/quince-gold-balloon-arch.jpg`. Portrait or square works best (tiles are 4:5);
-   about 1200 px on the long side is plenty.
+1. Put the original in `~/Documents/Clients/sa-creations-originals/` (never in the repo), then make the
+   site copy with a short lowercase name, no spaces or accents. In the VS Code terminal:
+
+   ```
+   npm run images -- photo ~/Documents/Clients/sa-creations-originals/IMG_1234.jpeg public/images/quince-gold-balloon-arch.jpg
+   ```
+
+   It resizes, turns the photo upright and strips everything hidden in the file (GPS location, camera,
+   date). Add `--blur left,top,width,height` for a house number or a guest, or `--crop left,top,width,height`
+   to keep part of it. Portrait or square works best (tiles are 4:5). Add a row to `docs/PHOTOS.md` with
+   the command you ran.
 2. Add one block per photo to the `photos` list, in the order they should appear:
 
    ```ts
@@ -96,8 +104,9 @@ photo: {
 },
 ```
 
-1. Save the photo in `public/images/`, for example `public/images/service-decor.jpg`.
-   The boxes are tall arches, so pick a photo whose subject sits in the middle.
+1. Make the file with `npm run images -- photo ...` as in "Add photos to the gallery" step 1, for example
+   `public/images/service-decor.jpg`. The boxes are tall arches, so pick a photo whose subject sits in
+   the middle.
 2. Set `src` to its path and replace the `alt` placeholder with a real description:
 
    ```ts
