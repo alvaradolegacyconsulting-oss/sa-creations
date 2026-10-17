@@ -5,6 +5,7 @@ import { navLabels } from "@/content/navigation";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
+import { newTabLinkProps } from "@/lib/links";
 import { routes } from "@/lib/routes";
 import { sectionHref } from "@/lib/sections";
 import { yearInCentral } from "@/lib/time";
@@ -30,7 +31,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <ul className="flex flex-wrap gap-x-6">
             {links.map((link) => (
               <li key={link.href}>
-                <a className={linkClasses} href={link.href} {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}>
+                <a className={linkClasses} href={link.href} {...(link.external ? newTabLinkProps : {})}>
                   {link.label}
                 </a>
               </li>

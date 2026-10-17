@@ -1,4 +1,5 @@
 import type { MouseEventHandler, ReactNode } from "react";
+import { newTabLinkProps } from "@/lib/links";
 
 export type ButtonVariant = "primary" | "outline";
 
@@ -31,7 +32,7 @@ export function ButtonLink({
       href={href}
       onClick={onClick}
       className={`${buttonClasses(variant)} ${className}`}
-      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      {...(external ? newTabLinkProps : {})}
     >
       {children}
     </a>
@@ -57,7 +58,7 @@ export function ArrowLink({
     <a
       href={href}
       onClick={onClick}
-      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      {...(external ? newTabLinkProps : {})}
       className={`inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-copper underline underline-offset-4 hover:text-navy ${className}`}
     >
       {children}
