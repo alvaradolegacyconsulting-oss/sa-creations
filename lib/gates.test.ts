@@ -33,11 +33,8 @@ describe("PLACEHOLDERS_RESOLVED", () => {
     expect(runGates({ site: { url: "https://example.com" } }, englishOnly).every((g) => g.problems.length === 0)).toBe(true);
   });
 
-  it("currently fails on the open questions (expected until Jose answers them)", () => {
-    const problems = runGates(content, site)[0].problems.join("\n");
-    expect(problems).toContain("site.url");
-    expect(problems).toContain("site.email");
-    expect(problems).not.toContain("src is null");
+  it("passes on the launch content, with every other production gate (Spanish included)", () => {
+    expect(runGates(content, site)).toEqual(runGates(content, site).map(({ name }) => ({ name, problems: [] })));
   });
 });
 

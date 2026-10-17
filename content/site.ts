@@ -1,4 +1,4 @@
-import { placeholder, type Locale, type LocalizedText } from "./types";
+import type { Locale, LocalizedText } from "./types";
 
 export type SiteContent = {
   /**
@@ -42,8 +42,9 @@ export type SiteContent = {
 
 export const site: SiteContent = {
   languages: ["en", "es"],
-  translationsReviewed: false,
-  url: placeholder("production domain, e.g. https://sacreations.com"),
+  // Sayra approved the Spanish (Jose, Oct 16).
+  translationsReviewed: true,
+  url: "https://www.sacustomcreations.com",
   businessName: "S&A Creations",
   legalName: "Alvarado Legacy Consulting, LLC",
   logo: { src: "/images/logo/sa-creations-logo.png", width: 600, height: 397 },
@@ -54,10 +55,10 @@ export const site: SiteContent = {
     es: "Desde bodas y quinceañeras de ensueño hasta ropa personalizada y regalos únicos, creamos momentos y recuerdos que duran toda la vida.",
   },
   headerCta: { en: "Free consultation", es: "Consulta gratis" },
-  email: placeholder("inquiry email"),
-  // Open question: phone to publish. Undefined publishes none (content/pending.ts).
-  phone: undefined,
-  // Open question: Instagram and Facebook URLs (content/pending.ts).
+  // Temporary inbox until mail moves to sacustomcreations.com; change it only here.
+  email: "sayra@alvaradolegacyconsultingllc.com",
+  phone: { display: "832-363-0716", tel: "+18323630716" },
+  // No social accounts for now, on purpose (Jose, Oct 16): no footer links, no Instagram button, no sameAs.
   social: { instagram: undefined, facebook: undefined },
   footerNote: {
     en: "S&A Creations is a DBA of Alvarado Legacy Consulting, LLC.",

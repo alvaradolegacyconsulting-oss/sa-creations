@@ -6,12 +6,13 @@ photo gallery, our story and an inquiry form for a free consultation) and a `/se
 and Spanish. Next.js (App Router), TypeScript, Tailwind CSS. No database, no CMS, no logins, no store.
 
 > **Status (build/v1):** every section is built, in both languages. The inquiry form sends email
-> through `/api/contact` (Resend) once the three environment variables below are set. The Spanish is
-> drafted and waiting for Sayra's review (`docs/REVIEW.md`). There is no domain yet: the site lives on
-> Vercel preview URLs, and production is blocked on purpose until the open questions are answered and
-> the Spanish is signed off (see [Build-time gates](#build-time-gates-prebuild)).
+> through `/api/contact` (Resend) once the three environment variables below are set. Sayra has signed
+> off the Spanish. Every production gate passes (see [Build-time gates](#build-time-gates-prebuild)). The
+> domain is **www.sacustomcreations.com**; it goes live when `build/v1` is merged to `main` and DNS is
+> pointed at Vercel.
 
-- **Production:** `main` branch → Vercel production (once a domain is chosen).
+- **Production:** `main` branch → Vercel production at https://www.sacustomcreations.com (the apex
+  redirects to `www`, set in Vercel).
 - **Staging:** every other branch gets a Vercel preview URL (Vercel may ask you to log in to the
   Alvarado Legacy Consulting team to view previews).
 

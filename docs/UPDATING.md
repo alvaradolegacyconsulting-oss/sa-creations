@@ -134,16 +134,19 @@ card shows text only. Use this rather than leaving `src: null`, which blocks pro
 
 File: `content/site.ts`
 
-- **Email:** replace `placeholder("inquiry email")` with the address in quotes:
-  `email: "hello@example.com",`. It appears in the contact section and in the form's error message.
-- **Phone:** replace `phone: undefined` with:
+- **Email:** the address in quotes: `email: "hello@example.com",`. It appears in the contact section
+  and in the form's error message. Changing it here does **not** change where form messages go: that's
+  `CONTACT_TO_EMAIL` in Vercel ([README, Environment variables](../README.md#environment-variables)).
+  When the inbox moves, change both.
+- **Phone:**
 
   ```ts
-  phone: { display: "(281) 555-0123", tel: "+12815550123" },
+  phone: { display: "832-363-0716", tel: "+18323630716" },
   ```
 
   `display` is how it reads; `tel` is the same number with `+1` and digits only (it's what a phone
-  dials). Leave `undefined` to publish no phone number.
+  dials and texts). It drives the Call and Text links and the form's error message. Set
+  `phone: undefined` to publish no phone number.
 - **Instagram / Facebook:** set the full URLs:
 
   ```ts
@@ -151,9 +154,7 @@ File: `content/site.ts`
   ```
 
   A link left `undefined` is simply not shown. The gallery's "Follow on Instagram" link appears once
-  `instagram` is set.
-
-Then delete the matching line from `content/pending.ts`.
+  `instagram` is set. At launch S&A has no social accounts, so both are `undefined` on purpose.
 
 ## Change text
 
