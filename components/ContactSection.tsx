@@ -7,7 +7,7 @@ import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
 
-const linkClasses = "break-all font-medium text-navy underline underline-offset-4 hover:text-copper";
+const linkClasses = "inline-flex min-h-11 items-center break-all font-medium text-navy underline underline-offset-4 hover:text-copper";
 
 export function ContactSection({ locale }: { locale: Locale }) {
   const headingId = `${sectionIds.contact}-heading`;
@@ -21,14 +21,21 @@ export function ContactSection({ locale }: { locale: Locale }) {
             <EmphasizedText text={contact.heading} locale={locale} />
           </h2>
           <p className="mt-5 max-w-md leading-relaxed text-ink/80">{t(contact.intro, locale)}</p>
-          {/* The phone line appears only once a number is confirmed in content/site.ts. */}
-          <ul className="mt-6 space-y-2 text-sm">
+          {/* Call and text appear only when content/site.ts has a phone number. */}
+          <ul className="mt-4 text-sm">
             {site.phone && (
-              <li>
-                <a className={linkClasses} href={`tel:${site.phone.tel}`}>
-                  {site.phone.display}
-                </a>
-              </li>
+              <>
+                <li>
+                  <a className={linkClasses} href={`tel:${site.phone.tel}`}>
+                    {t(contact.call, locale)} {site.phone.display}
+                  </a>
+                </li>
+                <li>
+                  <a className={linkClasses} href={`sms:${site.phone.tel}`}>
+                    {t(contact.text, locale)} {site.phone.display}
+                  </a>
+                </li>
+              </>
             )}
             <li>
               <a className={linkClasses} href={`mailto:${site.email}`}>

@@ -13,7 +13,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-184 pieces of text; every one has Spanish.
+187 pieces of text; every one has Spanish.
 
 ## Site-wide (titles, header, footer)
 
@@ -235,6 +235,8 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `contact.eyebrow` | Get in touch | Contáctanos |
 | `contact.heading.before` | Let's plan something amazing. | Planeemos algo increíble. |
 | `contact.intro` | Whether you have a date set or just a dream, we'd love to hear from you. Send a few details for a free consultation and a custom proposal. | Ya sea que tengas una fecha o solo un sueño, nos encantaría saber de ti. Mándanos algunos detalles para una consulta gratis y una propuesta personalizada. |
+| `contact.call` | Call | Llama al |
+| `contact.text` | Text | Manda un mensaje al |
 | `contact.labels.name` | Name | Nombre |
 | `contact.labels.email` | Email | Correo electrónico |
 | `contact.labels.phone` | Phone | Teléfono |
@@ -249,6 +251,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `contact.pending` | Sending... | Enviando... |
 | `contact.success` | Thank you! Your request was sent. We'll reach out to set up your free consultation. | ¡Gracias! Tu solicitud se envió. Te contactaremos para agendar tu consulta gratis. |
 | `contact.failure` | We couldn't send your request. Your details are still here, so you can try again, or email us at | No pudimos enviar tu solicitud. Tus datos siguen aquí para que lo intentes de nuevo, o escríbenos a |
+| `contact.failurePhone` | or call or text | o llámanos o mándanos un mensaje al |
 | `contact.invalid` | Please add your name, a valid email and a few details. | Por favor escribe tu nombre, un correo electrónico válido y algunos detalles. |
 
 ## Page not found (404)

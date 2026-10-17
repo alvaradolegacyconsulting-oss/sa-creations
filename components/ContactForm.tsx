@@ -233,6 +233,14 @@ export function ContactForm({ locale, seasons = seasonal.seasons }: { locale: Lo
             <a className="break-all font-semibold underline underline-offset-4" href={`mailto:${site.email}`}>
               {site.email}
             </a>
+            {site.phone && (
+              <>
+                , {t(contact.failurePhone, locale)}{" "}
+                <a className="whitespace-nowrap font-semibold underline underline-offset-4" href={`tel:${site.phone.tel}`}>
+                  {site.phone.display}
+                </a>
+              </>
+            )}
             .
           </StatusMessage>
         )}

@@ -24,6 +24,58 @@ async function fillRequired(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText("Tell us about it"), "Quinceañera in June, about 120 guests.");
 }
 
+const testPhone = { display: "832-555-0100", tel: "+18325550100" };
+
+/** Renders with a phone number in content/site.ts, whatever it holds today. */
+function withPhone(run: () => Promise<void> | void) {
+  return async () => {
+    const saved = site.phone;
+    site.phone = testPhone;
+    try {
+      await run();
+    } finally {
+      site.phone = saved;
+    }
+  };
+}
+
+describe("phone links (CONTACT_LINKS)", () => {
+  it(
+    "offers call (tel:) and text (sms:) links when there's a phone number",
+    withPhone(() => {
+      render(<ContactSection locale="en" />);
+      expect(screen.getByRole("link", { name: `Call ${testPhone.display}` }).getAttribute("href")).toBe(`tel:${testPhone.tel}`);
+      expect(screen.getByRole("link", { name: `Text ${testPhone.display}` }).getAttribute("href")).toBe(`sms:${testPhone.tel}`);
+    }),
+  );
+
+  it("leaves both out when there's no phone number", () => {
+    const saved = site.phone;
+    site.phone = undefined;
+    try {
+      render(<ContactSection locale="en" />);
+      expect(document.querySelector('a[href^="tel:"], a[href^="sms:"]')).toBeNull();
+    } finally {
+      site.phone = saved;
+    }
+  });
+
+  it(
+    "puts the phone number in the failure message",
+    withPhone(async () => {
+      vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(new Response("Not found", { status: 404 }))));
+      const user = userEvent.setup();
+      render(<ContactForm locale="en" />);
+      await fillRequired(user);
+      await user.click(submit());
+
+      const alert = await screen.findByRole("alert");
+      expect(alert.textContent).toContain(`${contact.failurePhone.en} ${testPhone.display}.`);
+      expect(screen.getByRole("link", { name: testPhone.display }).getAttribute("href")).toBe(`tel:${testPhone.tel}`);
+    }),
+  );
+});
+
 describe("ContactForm (FORM_UI)", () => {
   it("blocks an empty submit with an inline message and sends nothing", async () => {
     const fetchMock = vi.fn();

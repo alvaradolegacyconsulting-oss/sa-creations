@@ -11,6 +11,9 @@ export type ContactContent = {
   eyebrow: LocalizedText;
   heading: EmphasizedText;
   intro: LocalizedText;
+  /** Before the number on the tap-to-call and tap-to-text links: "Call 832-363-0716". Shown only with site.phone. */
+  call: LocalizedText;
+  text: LocalizedText;
   labels: {
     name: LocalizedText;
     email: LocalizedText;
@@ -33,6 +36,8 @@ export type ContactContent = {
   success: LocalizedText;
   /** Shown on any failure; the inquiry email is appended as a link. The fields stay filled. */
   failure: LocalizedText;
+  /** After the email in the failure message, before the phone number (a tel: link). Shown only with site.phone. */
+  failurePhone: LocalizedText;
   /** Shown when a required field is empty or the email isn't valid. */
   invalid: LocalizedText;
 };
@@ -44,6 +49,8 @@ export const contact: ContactContent = {
     en: "Whether you have a date set or just a dream, we'd love to hear from you. Send a few details for a free consultation and a custom proposal.",
     es: "Ya sea que tengas una fecha o solo un sueño, nos encantaría saber de ti. Mándanos algunos detalles para una consulta gratis y una propuesta personalizada.",
   },
+  call: { en: "Call", es: "Llama al" },
+  text: { en: "Text", es: "Manda un mensaje al" },
   labels: {
     name: { en: "Name", es: "Nombre" },
     email: { en: "Email", es: "Correo electrónico" },
@@ -72,6 +79,7 @@ export const contact: ContactContent = {
     en: "We couldn't send your request. Your details are still here, so you can try again, or email us at",
     es: "No pudimos enviar tu solicitud. Tus datos siguen aquí para que lo intentes de nuevo, o escríbenos a",
   },
+  failurePhone: { en: "or call or text", es: "o llámanos o mándanos un mensaje al" },
   invalid: {
     en: "Please add your name, a valid email and a few details.",
     es: "Por favor escribe tu nombre, un correo electrónico válido y algunos detalles.",
