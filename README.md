@@ -179,7 +179,7 @@ app/            (default)/ English pages, (alternate)/[alt]/ Spanish pages, api/
                 share images, global-not-found.tsx, sitemap.ts, robots.ts
 lib/            Helpers: gates, SEO, contact form and email, seasons, routes, i18n, time zone, review, contrast
 scripts/        Build-time gates (check-production-gates.ts), the review page (review.ts) and image prep (prepare-images.ts)
-public/images/  Photos (and the logo once it arrives)
+public/images/  Photos, and the logo in public/images/logo/ (favicon: app/icon.png, app/apple-icon.png)
 docs/preflight/ Specs and approvals from the architect (latest is the source of truth)
 docs/concept/   The approved design concept (PDF)
 docs/UPDATING.md  Plain-English update steps
@@ -196,7 +196,7 @@ Step-by-step versions are in [docs/UPDATING.md](docs/UPDATING.md).
 
 | File | What's in it | Notes |
 |---|---|---|
-| `content/site.ts` | Languages, Spanish sign-off flag, name, legal name, production URL, inquiry email, phone, Instagram/Facebook, footer note | `languages: ["en", "es"]` builds the Spanish site. `translationsReviewed` blocks production until `true`. `phone` and each social link are left out of the site while `undefined`. `phone.tel` is E.164 (`+12815550123`). |
+| `content/site.ts` | Languages, Spanish sign-off flag, name, legal name, logo file (and the footer's text wordmark), production URL, inquiry email, phone, Instagram/Facebook, footer note | `languages: ["en", "es"]` builds the Spanish site. `translationsReviewed` blocks production until `true`. `phone` and each social link are left out of the site while `undefined`. `phone.tel` is E.164 (`+12815550123`). The logo PNG is for light backgrounds only; `logo.width`/`height` must match the file (a test checks). |
 | `content/hero.ts` | Eyebrow, headline, subhead, buttons, the three hero photos | The first photo is the tall arch (the only one on phones). |
 | `content/values.ts` | Four values under the hero | |
 | `content/services.ts` | Section heading, four service cards (text, list, link label, photo) | `id` is also the form's checkbox value and the `?service=` preselect. `photo: { kind: "none" }` shows a card with no photo, on purpose. |

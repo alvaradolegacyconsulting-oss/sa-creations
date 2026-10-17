@@ -16,7 +16,13 @@ export type SiteContent = {
   businessName: string;
   /** The LLC that S&A Creations is a DBA of; JSON-LD legalName. */
   legalName: string;
-  /** The two halves of the text wordmark: "S&A" in copper (gold on dark), "Creations" in navy. */
+  /**
+   * The logo (S&A over CREATIONS) as a transparent PNG made by npm run images (docs/PHOTOS.md), for light
+   * backgrounds only: the header and the 404 page. Its "CREATIONS" is near-black, so the dark footer
+   * uses the text wordmark below instead. width/height are the file's pixels.
+   */
+  logo: { src: string; width: number; height: number };
+  /** The text wordmark on dark backgrounds (footer): "S&A" in gold, "Creations" in ivory. */
   wordmark: { top: string; bottom: string };
   /** Second half of the home page title, after the business name. */
   tagline: LocalizedText;
@@ -40,6 +46,7 @@ export const site: SiteContent = {
   url: placeholder("production domain, e.g. https://sacreations.com"),
   businessName: "S&A Creations",
   legalName: "Alvarado Legacy Consulting, LLC",
+  logo: { src: "/images/logo/sa-creations-logo.png", width: 600, height: 397 },
   wordmark: { top: "S&A", bottom: "Creations" },
   tagline: { en: "Events, decor, apparel and gifts", es: "Eventos, decoración, ropa y regalos" },
   description: {

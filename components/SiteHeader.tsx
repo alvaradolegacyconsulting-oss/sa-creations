@@ -17,9 +17,9 @@ export function SiteHeader({ links, locale, route }: { links: NavLink[]; locale:
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-ivory">
-      <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
         <Link href={routes.home[locale]} aria-label={site.businessName} className="inline-flex min-h-11 items-center rounded-sm">
-          <Logo />
+          <Logo priority />
         </Link>
 
         <div className="flex items-center gap-3 md:gap-6">
