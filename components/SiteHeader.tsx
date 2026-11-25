@@ -27,9 +27,9 @@ export function SiteHeader({ links, locale, route }: { links: NavLink[]; locale:
           <Logo priority />
         </Link>
 
-        <div className="flex items-center gap-3 md:gap-6">
+        <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
           <nav aria-label={t(navLabels.mainNav, locale)} className="hidden md:block">
-            <ul className="flex items-center gap-6">
+            <ul className="flex items-center gap-4 lg:gap-6">
               {menuLinks.map((link) => (
                 <li key={link.href}>
                   <a href={link.href} className="py-2 text-[0.9375rem] font-medium text-ink hover:text-copper">
@@ -41,7 +41,7 @@ export function SiteHeader({ links, locale, route }: { links: NavLink[]; locale:
           </nav>
           {/* Wrapped so "hidden" isn't overridden by the button's own display class; phones get it in the menu. */}
           <div className="hidden md:block">
-            <a href={cta.href} className={`${buttonClasses("primary")} min-h-11 px-5 text-sm`}>
+            <a href={cta.href} className={`${buttonClasses("primary")} min-h-11 whitespace-nowrap px-5 text-sm`}>
               {cta.label}
             </a>
           </div>
