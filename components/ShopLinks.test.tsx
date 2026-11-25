@@ -2,8 +2,10 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, it } from "vitest";
+import { ContactSection } from "@/components/ContactSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { contact } from "@/content/contact";
 import { headerNav } from "@/content/navigation";
 import { shop } from "@/content/shop";
 import { locales, type Locale } from "@/content/types";
@@ -42,5 +44,12 @@ describe.each(locales)("shop links (%s)", (locale) => {
 
     expectSameTab(within(footer).getByRole("link", { name: t(shop.labels.shop, locale) }), shop.url);
     expectSameTab(within(footer).getByRole("link", { name: t(shop.labels.quote, locale) }), shop.quoteUrl);
+  });
+
+  it("Request a quote sits beside the contact form, which stays", () => {
+    render(<ContactSection locale={locale} />);
+
+    expectSameTab(screen.getByRole("link", { name: t(shop.labels.quote, locale) }), shop.quoteUrl);
+    expect(screen.getByRole("button", { name: t(contact.submit, locale) })).toBeTruthy();
   });
 });

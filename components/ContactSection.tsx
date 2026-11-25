@@ -1,8 +1,10 @@
+import { buttonClasses } from "@/components/ButtonLink";
 import { ContactForm } from "@/components/ContactForm";
 import { EmphasizedText } from "@/components/EmphasizedText";
 import { Container, Eyebrow } from "@/components/Section";
 import { contact } from "@/content/contact";
 import { sectionIds } from "@/content/navigation";
+import { shop } from "@/content/shop";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
@@ -43,6 +45,12 @@ export function ContactSection({ locale }: { locale: Locale }) {
               </a>
             </li>
           </ul>
+          {/* A second way in, beside the form (never instead of it). A plain <a>, not ButtonLink, which
+              would open this other-site URL in a new tab; the shop opens in the same tab. */}
+          <a href={shop.quoteUrl} className={`${buttonClasses("outline")} mt-6 gap-1`}>
+            {t(shop.labels.quote, locale)}
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
         <ContactForm locale={locale} />
       </Container>
