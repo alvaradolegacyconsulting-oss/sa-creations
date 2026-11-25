@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Container } from "@/components/Section";
 import { navLabels } from "@/content/navigation";
+import { shop } from "@/content/shop";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
@@ -18,6 +19,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     site.social.instagram && { label: t(navLabels.instagram, locale), href: site.social.instagram, external: true },
     site.social.facebook && { label: t(navLabels.facebook, locale), href: site.social.facebook, external: true },
     { label: t(navLabels.season, locale), href: routes.season[locale], external: false },
+    // Another site, but same tab: external here means "new tab", which the shop links aren't.
+    { label: t(shop.labels.shop, locale), href: shop.url, external: false },
+    { label: t(shop.labels.quote, locale), href: shop.quoteUrl, external: false },
     { label: t(navLabels.contact, locale), href: sectionHref("contact", locale), external: false },
   ].filter((link) => link !== undefined && link !== "") as { label: string; href: string; external: boolean }[];
 

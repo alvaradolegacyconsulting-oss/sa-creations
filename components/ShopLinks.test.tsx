@@ -2,6 +2,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, it } from "vitest";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { headerNav } from "@/content/navigation";
 import { shop } from "@/content/shop";
@@ -33,5 +34,13 @@ describe.each(locales)("shop links (%s)", (locale) => {
     await userEvent.setup().click(screen.getByRole("button", { name: locale === "es" ? "Menú" : "Menu" }));
     const phone = document.getElementById("mobile-navigation")!;
     expectSameTab(within(phone).getByRole("link", { name }), shop.url);
+  });
+
+  it("Shop and Request a quote are in the footer, same tab", () => {
+    render(<SiteFooter locale={locale} />);
+    const footer = screen.getByRole("navigation", { name: locale === "es" ? "Pie de página" : "Footer" });
+
+    expectSameTab(within(footer).getByRole("link", { name: t(shop.labels.shop, locale) }), shop.url);
+    expectSameTab(within(footer).getByRole("link", { name: t(shop.labels.quote, locale) }), shop.quoteUrl);
   });
 });
