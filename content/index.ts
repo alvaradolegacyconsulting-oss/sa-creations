@@ -8,6 +8,7 @@ import { openQuestions } from "./pending";
 import { redirects } from "./redirects";
 import { seasonal } from "./seasonal";
 import { services, servicesSection } from "./services";
+import { shop } from "./shop";
 import { site } from "./site";
 import { story } from "./story";
 import { values } from "./values";
@@ -22,6 +23,7 @@ export const content = {
   gallery,
   story,
   contact,
+  shop,
   headerNav,
   navLabels,
   notFound,

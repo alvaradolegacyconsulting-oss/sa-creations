@@ -13,7 +13,7 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 - Text used in more than one place (for example a photo's description) is listed once; the "Where"
   column names the other places.
 
-187 pieces of text; every one has Spanish.
+189 pieces of text; every one has Spanish.
 
 ## Site-wide (titles, header, footer)
 
@@ -253,6 +253,13 @@ reader as **tú** (warm and informal); tell us if you'd rather use **usted** eve
 | `contact.failure` | We couldn't send your request. Your details are still here, so you can try again, or email us at | No pudimos enviar tu solicitud. Tus datos siguen aquí para que lo intentes de nuevo, o escríbenos a |
 | `contact.failurePhone` | or call or text | o llámanos o mándanos un mensaje al |
 | `contact.invalid` | Please add your name, a valid email and a few details. | Por favor escribe tu nombre, un correo electrónico válido y algunos detalles. |
+
+## Shop links (header, footer, contact section)
+
+| Where | English | Español |
+|---|---|---|
+| `shop.labels.shop` | Shop | Tienda |
+| `shop.labels.quote` | Request a quote | Solicitar cotización |
 
 ## Page not found (404)
 

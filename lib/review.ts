@@ -14,6 +14,7 @@ const sectionNames: Record<string, string> = {
   gallery: "Gallery",
   story: "Our story and verse",
   contact: "Contact form",
+  shop: "Shop links (header, footer, contact section)",
   notFound: "Page not found (404)",
 };
 
