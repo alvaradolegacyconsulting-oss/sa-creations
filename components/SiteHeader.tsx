@@ -4,6 +4,7 @@ import { LangSwitch } from "@/components/LangSwitch";
 import { Logo } from "@/components/Logo";
 import { MobileMenu, type MenuLink } from "@/components/MobileMenu";
 import { navLabels, type NavLink } from "@/content/navigation";
+import { shop } from "@/content/shop";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { t } from "@/lib/i18n";
@@ -12,7 +13,11 @@ import { navHref, sectionHref } from "@/lib/sections";
 
 /** `links` is already filtered to sections that render (see components/PageShell.tsx). */
 export function SiteHeader({ links, locale, route }: { links: NavLink[]; locale: Locale; route: RouteKey }) {
-  const menuLinks: MenuLink[] = links.map((link) => ({ label: t(link.label, locale), href: navHref(link, locale) }));
+  const menuLinks: MenuLink[] = [
+    ...links.map((link) => ({ label: t(link.label, locale), href: navHref(link, locale) })),
+    // The shop is another site, but opens in this tab like the rest of the menu (content/shop.ts).
+    { label: t(shop.labels.shop, locale), href: shop.url },
+  ];
   const cta: MenuLink = { label: t(site.headerCta, locale), href: sectionHref("contact", locale) };
 
   return (
