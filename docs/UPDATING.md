@@ -155,6 +155,21 @@ File: `content/site.ts`
   A link left `undefined` is simply not shown. The gallery's "Follow on Instagram" link appears once
   `instagram` is set. At launch S&A has no social accounts, so both are `undefined` on purpose.
 
+## Change the shop links
+
+The **Shop** link (header, phone menu, footer) and the **Request a quote** link (footer, and the button
+beside the contact form) are set in `content/shop.ts`:
+
+```ts
+url: "https://shop.sacustomcreations.com",
+quoteUrl: "https://shop.sacustomcreations.com/request",
+```
+
+Change a URL there and every link that uses it follows. The labels are in the same file, in English and
+Spanish. Sayra opens and closes the shop from her portal; nothing on this site changes when she does
+(the shop page explains itself while it's closed). Both links open in the same tab and aren't in the
+sitemap, because the shop is a separate site.
+
 ## Contact form email
 
 Where form messages go and who they come from is set in **Vercel**, not in `content/`: Project →

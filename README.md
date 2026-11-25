@@ -207,6 +207,7 @@ Step-by-step versions are in [docs/UPDATING.md](docs/UPDATING.md).
 | `content/gallery.ts` | Gallery heading, tag captions, photos | Empty `photos` hides the section. Real photos only. |
 | `content/story.ts` | Our story text and the verse | The verse reference names the Bible version in each language (NIV, Reina-Valera 1960). |
 | `content/contact.ts` | Contact heading and intro, form labels, service checkboxes, season chip, sending/success/error text | Success shows only after the email is confirmed sent. |
+| `content/shop.ts` | Shop and quote-request URLs, and their labels | Plain same-tab links; the site never checks whether the shop is open. Not in the sitemap. |
 | `content/navigation.ts` | Header links, section ids, menu and language-switch labels, the 404 page text | |
 | `content/pending.ts` | Open questions with no field yet | Delete a line once it's answered. Each line blocks production. |
 | `content/redirects.ts` | Old URLs → pages on this site (301) | Empty: there's no old site. |
